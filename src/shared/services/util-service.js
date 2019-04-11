@@ -1,44 +1,141 @@
-// import qs from 'querystring';
-import _ from 'lodash';
+import qs from 'query-string';
 
-import { Utils } from '../utility';
+import { Config } from 'config';
 
 export default class UtilService {
 
-  userStore;
+  history;
 
+  spinner;
   spinnerAutoHide = true;
 
-  showSpinner(message = "", silent = false, autoHide = true) {
+  dialog;
+
+  storeService;
+
+  showSpinner(message) {
+    if (!this.spinner) return;
+    this.spinner.show(message);
   }
 
-  hideSpinner(autoHide) {
+  hideSpinner() {
+    if (!this.spinner) return;
+    this.spinner.hide();
   }
 
-  handleLogin = _.debounce((tryLoginResult) => {
-    this.goto(`/features/user/auth/index`, tryLoginResult);
-  }, 1500, { leading: true, trailing: false });
+  /**
+   * 处理 登录 和 页面回转
+   */
 
-  goto = _.debounce((pathname, query, isTab = false) => {
-  }, 200);
-
-  replace(pathname, query, reset = false) {
+  rememberLocation(location) {
+    if (Config.isPhantomLocation(location)) return;
+    this.storeService.storeItem('backLocation', location);
+    // console.log(`${location.pathname} remembered`);
   }
 
-  goBack(delta = 1) {
+  returnBack(defaultPath = '/') {
+    let targetLocation = this.storeService.getItem('backLocation');
+    this.replace(!!targetLocation ? targetLocation.pathname + targetLocation.search : defaultPath);
+    window.location.reload();
   }
 
-  alert = Utils.debounce((message = "", opts = {}) => {
-    alert(message);
-  })
-
-  confirm(message = "", opts = {}) {
+  goto(pathname, query) {
+    let querystr = qs.stringify(query);
+    this.history.push({
+      pathname,
+      querystr
+    });
   }
 
-  toast(message = '', opts = {}) {
+  replace(pathname, query) {
+    let querystr = qs.stringify(query);
+    this.history.replace({
+      pathname,
+      querystr
+    })
   }
 
-  toptips(message, type = 'info', duration = 1500) {
+  goBack() {
+    this.history.goBack();
+  }
+
+  handleLogin(userInfoRequired = false) {
+    // WebView 下处理登录在 JsBridgeStore
+    // 微信下处理登录
+    // if (Config.inWechat()) {
+    //   if (this['_handleLoginRedirected']) return;
+    //   var redirectUri = '?#/token';
+    //   // 转出转入的参数
+    //   // if (this.$location.search().token) redirectUri += `?${$.param(this.$location.search())}`;
+    //   var url = `${Config.wechatAuthUrl}?redirectUrl=${encodeURIComponent([Config.baseUrl, redirectUri].join(''))}`;
+    //   window.location.replace(url);
+    //   this['_handleLoginRedirected'] = true;
+    // }
+  }
+
+  moveToTop() {
+    window.scrollTo(0, 0);
+  }
+
+  alert(message, title) {
+    return new Promise(resolve => {
+      this.dialog.show({
+        title,
+        content: message,
+        buttons: [
+          {
+            label: '确认',
+            onClick: () => {
+              resolve();
+              this.dialog.hide();
+            }
+          }
+        ]
+      });
+    });
+  }
+
+  confirm(message, title) {
+    return new Promise((resolve, reject) => {
+      this.dialog.show({
+        title,
+        content: message,
+        buttons: [
+          {
+            type: 'default',
+            label: '取消',
+            onClick: () => {
+              reject();
+              this.dialog.hide();
+            }
+          },
+          {
+            type: 'primary',
+            label: '确认',
+            onClick: () => {
+              resolve();
+              this.dialog.hide();
+            }
+          }
+        ]
+      });
+    });
+  }
+
+  prompt(title, size, control) {
+    return this.promptDialog.show({ title, size, control });
+  }
+
+  toast(message, opts = {}) {
+    // opts = {
+    //   type: 'success',
+    //   timeout: 1500,
+    //   ...opts
+    // }
+    // notify.hide();
+    // clearTimeout(this.toastTimeout);
+    // notify.show(message, opts.type, -1, opts.color);
+    // this.toastTimeout = setTimeout(() => notify.hide(), opts.timeout);
   }
 
 }

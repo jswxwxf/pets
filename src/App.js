@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 
+import Spinner from './shared/components/Spinner';
+
 import Routes from './Routes';
 
 import './App.css';
 
-import { Config, injector } from './config';
+import { Config, injector, inject } from './config';
 
 injector.config(Config); // 初始化依赖
 
 class App extends Component {
+
+  utilService = inject('utilService');
+
   render() {
     return (
       <div className="App">
+        <Spinner ref={el => this.utilService.spinner = el} />
         <Routes />
-        {/* <Notifications />
-        <Spinner ref={el => UtilService.instance.spinner = el} />
-        <Dialog ref={el => UtilService.instance.dialog = el}></Dialog>
-        <div id="modal-container"></div> */}
       </div>
     );
   }

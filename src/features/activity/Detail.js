@@ -9,6 +9,7 @@ import styles from './Detail.module.scss';
 
 export default class Detail extends Component {
 
+  utilService = inject('utilService');
   activityController = inject('activityController');
 
   state = {
@@ -24,6 +25,10 @@ export default class Detail extends Component {
     this.setState({
       activity: result.data
     });
+  }
+
+  handleClick = () => {
+    this.utilService.goto('/activity/Attend');
   }
 
   render() {
@@ -61,7 +66,7 @@ export default class Detail extends Component {
             <span>{activity.view_count}次浏览</span>
             <span>{activity.collect_num}人收藏</span>
           </div>
-          <Button inline>报名￥10</Button>
+          <Button inline onClick={this.handleClick}>报名￥10</Button>
         </div>
 
         <div className={styles['info-container']}>

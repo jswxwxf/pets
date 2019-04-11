@@ -1,12 +1,12 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-let {
+import {
   AppController,
   ActivityController
-} = require('./index');
+} from './index';
 
-let {
+import {
   UtilService,
   StoreService,
   ActivityService,
@@ -16,7 +16,7 @@ let {
   // AddressService,
   // PayService,
   // CommonService
-} = require('../services/index');
+} from '../services';
 
 const container = {};
 
