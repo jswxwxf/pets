@@ -26,8 +26,10 @@ export default class Detail extends Component {
   async loadData() {
     if (!this.id) return;
     let result = await this.activityController.getActivity(this.id);
+    let avatars = await this.activityController.getApplicantAvatars(this.id);
     this.setState({
-      activity: result.data
+      activity: result.data,
+      avatars: avatars.data
     });
   }
 
@@ -36,7 +38,7 @@ export default class Detail extends Component {
   }
 
   render() {
-    let { activity } = this.state;
+    let { activity, avatars } = this.state;
     if (!activity) return null;
     return (
       <Container className={styles['detail-page']}>
@@ -82,17 +84,17 @@ export default class Detail extends Component {
           </div>
           <div className={styles['info-item']}>
             <span><img src={require('assets/images/icon-location.png')} alt="location" /></span>
-            <span>浦东新区浦明路898号海航大厦3号楼25</span>
+            <span>{activity.location}</span>
             <span><Icon type="right" /></span>
           </div>
           <div className={styles['info-item']}>
             <span><img src={require('assets/images/icon-vip.png')} alt="vip" /></span>
-            <span>仅剩20个名额</span>
+            <span>仅剩{activity.quota}个名额</span>
             <span></span>
           </div>
           <div className={styles['info-item']}>
-            <span><img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' /></span>
-            <span>Tiffany发起</span>
+            <span><img src={activity.user.avatar ? activity.user.avatar : require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' /></span>
+            <span>{activity.user.name}发起</span>
             <span><img src={require('assets/images/icon-phone.png')} alt="phone" /></span>
           </div>
         </div>
@@ -100,18 +102,11 @@ export default class Detail extends Component {
         <div className={styles['attendee-container']}>
           <div>已报名<Icon type="right" /></div>
           <div>
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
-            <img src={require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
+            {
+              avatars.map(function (avatar) {
+                return <img src={avatar ? avatar.avatar : require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
+              })
+            }
           </div>
         </div>
 
@@ -119,12 +114,7 @@ export default class Detail extends Component {
           <div>详情介绍</div>
           <div>
             <p>
-              <span>上海柯基聚会，不定期举行市内，江浙沪周边柯基小聚～有兴趣的来来！！！</span>
-              <span>大家好，马上就到周末时间了</span>
-              <span>不少人应该和我一样</span>
-              <span>正在计划周未去哪儿俗话说得好</span>
-              <span>周未不活动 脱单如做梦</span>
-              <span>那么！！！来参加狼人杀吧</span>
+              <span>{activity.content}</span>
             </p>
             <img src={require('assets/images/sample1.jpg')} alt="sample1" />
             <p>

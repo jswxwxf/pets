@@ -33,6 +33,11 @@ export default class ActivityController {
     return await this.activityService.getApplicants(id);
   }
 
+  async getApplicantAvatars(id, silent = true) {
+    this.utilService.showSpinner(undefined, silent);
+    return await this.activityService.getApplicantAvatars(id);
+  }
+
   async getMyApplicants(id, silent = true) {
     this.utilService.showSpinner(undefined, silent);
     return await this.activityService.getMyApplicants(id);

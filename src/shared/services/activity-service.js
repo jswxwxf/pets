@@ -32,6 +32,11 @@ export default class ActivityService extends BaseService {
     return resp.data;
   }
 
+  async getApplicantAvatars(id) {
+    const resp = await this._get(`/events/${id}/applicants/avatars`);
+    return resp.data;
+  }
+
   async apply(id, payload) {
     const resp = await this._post(`/events/${id}/applicants`, payload);
     return resp.data;
