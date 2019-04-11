@@ -1,0 +1,68 @@
+.price-picker {
+  :global {
+
+    .am-modal-body {
+      padding: 0 !important;
+    }
+
+    .am-modal-content {
+      border-radius: 0;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.09);
+      padding-top: 0;
+    }
+
+    .am-checkbox.am-checkbox-checked .am-checkbox-inner {
+      background-color: red;
+      border: none;
+    }
+
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 15px 20px;
+
+    .title {
+      font-size: 18px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.85);
+    }
+
+  }
+
+  .list-container {
+    margin: 20px;
+
+    >div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 5px 0;
+
+      &.small {
+        >span:first-child {
+          font-size: 13px;
+          font-weight: normal;
+        }
+      }
+
+      >span {
+        &:first-child {
+          font-size: 15px;
+          font-weight: 500;
+          color: rgba(0, 0, 0, 0.85);
+        }
+
+        &:last-child {
+          font-size: 13px;
+          color: rgba(83, 83, 83, 1);
+        }
+      }
+    }
+  }
+
+}

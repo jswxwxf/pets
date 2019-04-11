@@ -1,0 +1,1 @@
+// import jweixin from './jweixin-1.2.0-min.js';

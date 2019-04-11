@@ -1,0 +1,49 @@
+.species-picker {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .title {
+      font-size: 18px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.85);
+
+    }
+  }
+
+  :global {
+
+    .am-modal-content {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.09);
+    }
+
+    .am-list {
+      margin: 0 20px;
+      padding: 5px 0;
+
+      .am-list-header {
+        padding: 15px 0;
+      }
+
+      .am-list-body {
+        &:before {
+          content: none;
+        }
+
+        &:after {
+          content: none;
+        }
+      }
+
+      &-item {
+        padding-left: 0;
+        height: 60px;
+      }
+
+    }
+
+  }
+}

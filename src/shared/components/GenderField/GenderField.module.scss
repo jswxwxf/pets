@@ -1,0 +1,30 @@
+.gender-field-container {
+  :global {
+    .am-button {
+      color: rgba(0, 0, 0, 0.25);
+      background-color: rgba(0, 0, 0, 0.04);
+      font-size: 15px;
+      font-weight: 500;
+      height: 32px;
+      line-height: 32px;
+      width: 82px;
+      border-radius: 28px;
+      margin-left: 10px;
+
+      &:before {
+        content: none;
+      }
+
+      img {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+  }
+
+  .active {
+    color: rgba(254, 80, 0, 1);
+    background: rgba(255, 242, 230, 1);
+  }
+}
