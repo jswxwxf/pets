@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Carousel, Tag, Icon, Button } from 'antd-mobile';
+import qs from 'query-string';
 
 import { inject } from '../../config';
 
@@ -14,21 +15,24 @@ export default class Detail extends Component {
 
   state = {
     activity: null
-  }
+  };
+
+  id = qs.parse(this.props.location.search).id;
 
   componentDidMount() {
     this.loadData();
   }
 
   async loadData() {
-    let result = await this.activityController.getActivity(1);
+    if (!this.id) return;
+    let result = await this.activityController.getActivity(this.id);
     this.setState({
       activity: result.data
     });
   }
 
   handleClick = () => {
-    this.utilService.goto('/activity/Attend');
+    this.utilService.goto('/activity/Attend', { id: this.id });
   }
 
   render() {

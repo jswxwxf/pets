@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tag, Button, WhiteSpace, List, InputItem } from 'antd-mobile';
+import qs from 'query-string';
+
+import { inject } from '../../config';
 
 import { Container } from 'templates';
 
@@ -11,6 +14,23 @@ import { Container } from 'templates';
 import styles from './Attend.module.scss';
 
 export default class Detail extends Component {
+
+  utilService = inject('utilService');
+  activityController = inject('activityController');
+
+  id = qs.parse(this.props.location.search).id;
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  async loadData() {
+    if (!this.id) return;
+    let result = await this.activityController.getActivity(this.id);
+    this.setState({
+      activity: result.data
+    });
+  }
 
   render() {
     return (

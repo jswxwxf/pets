@@ -41,17 +41,19 @@ export default class UtilService {
 
   goto(pathname, query) {
     let querystr = qs.stringify(query);
+    if (querystr) querystr = "?" + querystr;
     this.history.push({
       pathname,
-      querystr
+      search: querystr
     });
   }
 
   replace(pathname, query) {
     let querystr = qs.stringify(query);
+    if (querystr) querystr = "?" + querystr;
     this.history.replace({
       pathname,
-      querystr
+      search: querystr
     })
   }
 
