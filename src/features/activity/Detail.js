@@ -11,7 +11,7 @@ import styles from './Detail.module.scss';
 export default class Detail extends Component {
 
   utilService = inject('utilService');
-  activityController = inject('activityController');
+  activityCtrl = inject('activityController');
 
   state = {
     activity: null
@@ -25,7 +25,7 @@ export default class Detail extends Component {
 
   async loadData() {
     if (!this.id) return;
-    let result = await this.activityController.getActivity(this.id);
+    let result = await this.activityCtrl.getActivity(this.id);
     this.setState({
       activity: result.data
     });
