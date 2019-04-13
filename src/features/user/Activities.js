@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Tabs } from 'antd-mobile';
 
+import { inject } from '../../config';
+
 import { Container } from 'templates';
 
 import styles from './Activities.module.scss';
@@ -13,6 +15,9 @@ const tabs = [
 ];
 
 export default class ActivitiesTabs extends Component {
+
+  utilService = inject('utilService');
+  activityCtrl = inject('activityController');
 
   render() {
     return (

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Tabs } from 'antd-mobile';
 
+import { inject } from '../../config';
+
 import { Container } from 'templates';
 
 import styles from './Orders.module.scss';
@@ -12,6 +14,9 @@ const tabs = [
 ];
 
 export default class OrdersTabs extends Component {
+
+  utilService = inject('utilService');
+  orderCtrl = inject('orderController');
 
   render() {
     return (

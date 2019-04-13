@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 import { Flex } from 'antd-mobile';
 
+import { inject } from '../../config';
+
 import { Container } from 'templates';
+
 import styles from './OrderDetail.module.scss';
 
 export default class OrderDetail extends Component {
+
+  utilService = inject('utilService');
+  orderCtrl = inject('orderController');
 
   render() {
     return (

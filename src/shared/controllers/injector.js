@@ -3,19 +3,17 @@ import _ from 'lodash';
 
 import {
   AppController,
-  ActivityController
+  UserController,
+  ActivityController,
+  OrderController
 } from './index';
 
 import {
   UtilService,
   StoreService,
+  UserService,
   ActivityService,
-  // ProductService,
-  // DealService,
-  // TransactionService,
-  // AddressService,
-  // PayService,
-  // CommonService
+  OrderService
 } from '../services';
 
 const container = {};
@@ -26,16 +24,14 @@ const config = (Config) => {
 
   d.utilService = new UtilService();
   d.storeService = new StoreService();
+  d.userService = new UserService(d.storeService);
   d.activityService = new ActivityService(d.storeService);
+  d.orderService = new OrderService(d.storeService);
 
   d.appController = new AppController(d.utilService);
+  d.userController = new UserController(d.utilService, d.userService);
   d.activityController = new ActivityController(d.utilService, d.activityService);
-  // d.productStore = new ProductStore(); d.productStore.utilService = d.utilService; d.productStore.productService = d.productService;
-  // d.dealStore = new DealStore(); d.dealStore.utilService = d.utilService; d.dealStore.dealService = d.dealService;
-  // d.transactionStore = new TransactionStore(); d.transactionStore.utilService = d.utilService; d.transactionStore.transactionService = d.transactionService;
-  // d.addressStore = new AddressStore(); d.addressStore.utilService = d.utilService; d.addressStore.addressService = d.addressService;
-  // d.payStore = new PayStore(); d.payStore.utilService = d.utilService; d.payStore.payService = d.payService;
-  // d.commonStore = new CommonStore(); d.commonStore.utilService = d.utilService; d.commonStore.userService = d.userService; d.commonStore.commonService = d.commonService;
+  d.orderController = new OrderController(d.utilService, d.orderService);
 
   // // 破例 service 依赖 store
   // d.userService.eventStore = d.eventStore;
