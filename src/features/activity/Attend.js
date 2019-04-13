@@ -63,7 +63,7 @@ export default class Attend extends Component {
       return this.utilService.alert(first.errors[0].message);
     }
     result = await this.activityCtrl.apply(this.id, AttendForm.toJson(result));
-    console.log(result);
+    this.utilService.replace(`/user/orders/${result.data.trade_no}`);
   }
 
   render() {
