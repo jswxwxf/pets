@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import PetsPicker from '../PetsPicker';
 
-// import styles from './PetsField.module.scss';
+import styles from './PetsField.module.scss';
 
 export default class PetsField extends Component {
 
@@ -20,17 +20,30 @@ export default class PetsField extends Component {
     label: '携带宠物'
   }
 
+  state = {
+    _value: this.props.value
+  }
+
   petsPicker;
 
-  handleClick = () => {
-    this.petsPicker.pick();
+  handleClick = async () => {
+    let { value, onChange } = this.props;
+    let newValue = await this.petsPicker.pick(value);
+    this.setState({ _value: newValue });
+    onChange(newValue);
+  }
+
+  getDisplayValue() {
+    let { _value } = this.state;
+    if (!_value) return null;
+    return _value.map(pet => (<img key={pet.id} src={pet.avatar} alt="pet" />));
   }
 
   render() {
     let { label } = this.props;
     return (
       <>
-        <List.Item onClick={this.handleClick} arrow="horizontal" thumb={<img src={require('assets/images/icon-pet.png')} alt="pet" />}>{label}</List.Item>
+        <List.Item className={styles['pets-field']} onClick={this.handleClick} arrow="horizontal" extra={this.getDisplayValue()} thumb={<img src={require('assets/images/icon-pet.png')} alt="pet" />}>{label}</List.Item>
         <PetsPicker ref={el => this.petsPicker = el} />
       </>
     );

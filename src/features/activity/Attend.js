@@ -62,7 +62,7 @@ export default class Attend extends Component {
       let first = Utils.first(err);
       return this.utilService.alert(first.errors[0].message);
     }
-    result = await this.activityCtrl.apply(this.id, result);
+    result = await this.activityCtrl.apply(this.id, AttendForm.toJson(result));
     console.log(result);
   }
 
@@ -163,7 +163,9 @@ class Form extends Component {
           {getFieldDecorator(...attendForm.mobile)(
             <InputItem placeholder="请填写手机号"><img src={require('assets/images/icon-user.png')} alt="phone" /> 手机号码</InputItem>
           )}
-          <PetsField label='携带宠物' />
+          {getFieldDecorator(...attendForm.pets)(
+            <PetsField label='携带宠物' />
+          )}
         </List>
       </div>
     )

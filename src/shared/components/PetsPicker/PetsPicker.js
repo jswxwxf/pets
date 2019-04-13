@@ -20,7 +20,8 @@ export default class PetsPicker extends Component {
 
   state = {
     visible: false,
-    pets: []
+    pets: [],
+    checkedPets: {}
   }
 
   pick() {
@@ -29,7 +30,7 @@ export default class PetsPicker extends Component {
       this.reject = reject;
       await this.loadData();
       this.setState({
-        visible: true
+        visible: true,
       });
     })
   }
@@ -39,6 +40,13 @@ export default class PetsPicker extends Component {
     this.setState({
       pets: result.data
     });
+  }
+
+  handleOk = () => {
+    let { checkedPets } = this.state;
+    checkedPets = _.omitBy(checkedPets, val => val === false);
+    this.resolve(_.values(checkedPets));
+    this.handleClose();
   }
 
   handleClose = () => {
@@ -57,8 +65,18 @@ export default class PetsPicker extends Component {
     this.loadData();
   }
 
+  handleCheck(e, pet) {
+    let { checkedPets } = this.state;
+    if (e.target.checked) {
+      checkedPets[pet.id] = pet;
+    } else {
+      delete checkedPets[pet.id];
+    }
+    this.setState({ checkedPets });
+  }
+
   render() {
-    let { visible, pets } = this.state;
+    let { visible, pets, checkedPets } = this.state;
     return (
       <>
         <Modal popup visible={visible} onClose={this.handleClose} animationType="slide-up" className={styles['pets-picker']}>
@@ -66,16 +84,16 @@ export default class PetsPicker extends Component {
             <div className={styles['header']}>
               <Icon onClick={this.handleClose} type="cross" />
               <span className={styles['title']}>选择参加活动的宠物</span>
-              <Button type="ghost" inline size="small">确定</Button>
+              <Button onClick={this.handleOk} type="ghost" inline size="small">确定</Button>
             </div>
           )} renderFooter={() => (
             <Button onClick={this.handleAdd} type="ghost" size="small" icon={<img src={require('assets/images/icon-plus.png')} alt="plus" />}>添加新宠物</Button>
           )}>
             {pets.map(pet => {
-              let extra = <div><Checkbox /></div>;
+              let extra = <div><Checkbox checked={checkedPets[pet.id] !== undefined} onChange={e => this.handleCheck(e, pet)} /></div>;
               if (pet.is_tmp === 1) extra = (<div>
                 <img onClick={e => this.handleModify(e, pet)} src={require('assets/images/icon-modify.png')} alt="modify" />
-                <Checkbox />
+                <Checkbox checked={checkedPets[pet.id] !== undefined} onChange={e => this.handleCheck(e, pet)} />
               </div>);
               return (<List.Item key={pet.id} thumb={<img src={pet.avatar} alt="pet" />}
                 extra={extra}>{pet.name}</List.Item>);

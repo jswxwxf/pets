@@ -26,6 +26,11 @@ export default class AttendForm extends BaseForm {
         { validator: rcValidator('mobile', '请填写正确的手机号') }
       ],
     }];
+    this.pets = ['pets', {
+      rules: [
+        { required: true, message: '请选择宠物' },
+      ],
+    }];
   }
 
   validate() {
@@ -36,12 +41,20 @@ export default class AttendForm extends BaseForm {
     })
   }
 
+  static toJson(result) {
+    result.forEach(item => {
+      item.pet_ids = item.pets.map(pet => pet.id);
+      delete item.pets;
+    });
+    return { applicants: result };
+  }
+
   static validateAll(forms) {
     return new Promise(async (resolve, reject) => {
       let allValues = [];
       await Utils.asyncForEach(forms, async form => {
         let result = await form.validate();
-        let values = _.omitBy(result.values, val => val === undefined);
+        let values = _.omitBy(result.values, val => _.isEmpty(val));
         if (_.isEmpty(values)) return;
         if (!result.errors) return allValues.push(values);
         reject(result.errors);
