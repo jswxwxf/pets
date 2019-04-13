@@ -44,7 +44,7 @@ export default class AppController {
 
   resultFailed = result => {
     if (!result) return;
-    let message = result.error || result.message || result;
+    let message = result.error || result.message || result.msg || result;
     if (_.isObject(message)) message = '出错了';
     this.utilService.alert(message);
   };

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Modal, Button, List, Icon, Checkbox, InputItem } from 'antd-mobile';
+import { Modal, Button, List, Icon, Checkbox, InputItem, DatePicker } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import _ from 'lodash';
 
@@ -47,8 +47,14 @@ export default class PetsPicker extends Component {
     });
   }
 
-  handleAdd = () => {
-    this.addPicker.add();
+  handleAdd = async () => {
+    await this.petPicker.open();
+    this.loadData();
+  }
+
+  handleModify = async (_, pet) => {
+    await this.petPicker.open(pet);
+    this.loadData();
   }
 
   render() {
@@ -67,38 +73,36 @@ export default class PetsPicker extends Component {
           )}>
             {pets.map(pet => {
               let extra = <div><Checkbox /></div>;
+              if (pet.is_tmp === 1) extra = (<div>
+                <img onClick={e => this.handleModify(e, pet)} src={require('assets/images/icon-modify.png')} alt="modify" />
+                <Checkbox />
+              </div>);
               return (<List.Item key={pet.id} thumb={<img src={pet.avatar} alt="pet" />}
                 extra={extra}>{pet.name}</List.Item>);
             })}
-            {/* <List.Item thumb={<img src={require('assets/images/sample-avatar.jpg')} alt="pet" />}
-              extra={<div><img src={require('assets/images/icon-modify.png')} alt="modify" /><Checkbox /></div>}>咪咪</List.Item>
-            <List.Item thumb={<img src={require('assets/images/sample-avatar.jpg')} alt="pet" />}
-              extra={<div><Checkbox /></div>}>张小咪</List.Item>
-            <List.Item thumb={<img src={require('assets/images/sample-avatar.jpg')} alt="pet" />}
-              extra={<div><Checkbox /></div>}>张小闹</List.Item>
-            <List.Item thumb={<img src={require('assets/images/sample-avatar.jpg')} alt="pet" />}
-              extra={<div><Checkbox /></div>}>木木</List.Item> */}
           </List>
         </Modal>
-        <AddPicker ref={el => this.addPicker = el} />
+        <PetPicker ref={el => this.petPicker = el} />
       </>
     );
   }
 
 }
 
-class AddPicker extends Component {
+class PetPicker extends Component {
 
   state = {
-    visible: false
+    visible: false,
+    pet: null
   }
 
-  add() {
+  open(pet) {
     return new Promise((resolve, reject) => {
       this.resolve = resolve;
       this.reject = reject;
       this.setState({
-        visible: true
+        visible: true,
+        pet
       });
     });
   }
@@ -109,11 +113,16 @@ class AddPicker extends Component {
     });
   }
 
+  handleSaved = () => {
+    this.resolve();
+    this.handleClose();
+  }
+
   render() {
-    let { visible } = this.state;
+    let { visible, pet } = this.state;
     return (
       <Modal popup visible={visible} onClose={this.handleClose} animationType="slide-up" className={styles['pets-picker']}>
-        <Form onClose={this.handleClose} />
+        <Form pet={pet} onClose={this.handleClose} onSaved={this.handleSaved} />
       </Modal>
     )
   }
@@ -125,28 +134,34 @@ class Form extends Component {
   petCtrl = inject('petController');
 
   static propTypes = {
-    onClose: PropTypes.func
+    pet: PropTypes.object,
+    onClose: PropTypes.func,
+    onSaved: PropTypes.func
   }
 
   static defaultProps = {
-    onClose: _.noop
+    onClose: _.noop,
+    onSaved: _.noop
   }
 
   state = {
-    petForm: new PetForm(this.props.form)
+    petForm: new PetForm(this.props.form, this.props.pet)
   }
 
   handleSubmit = async () => {
+    let { onSaved } = this.props;
     try {
       var result = await this.state.petForm.validate();
     } catch (err) {
       let first = Utils.first(err);
       return this.utilService.alert(first.errors[0].message);
     }
-    console.log(result);
-    debugger
-    result = await this.petCtrl.addPet(result);
-    debugger
+    if (this.props.pet) {
+      result = await this.petCtrl.updatePet(this.props.pet.id, PetForm.toJson(result));
+    } else {
+      result = await this.petCtrl.addPet(PetForm.toJson(result));
+    }
+    onSaved(result);
   }
 
   render() {
@@ -166,9 +181,10 @@ class Form extends Component {
           <InputItem placeholder="请输入宝贝的大名（2-20个字符）" />
         )}
         {getFieldDecorator(...petForm.birthday)(
-          <InputItem type="date" placeholder="请输入生日/到家日" />
+          <DatePicker mode="date" extra=' '>
+            <List.Item arrow="horizontal">生日/到家日</List.Item>
+          </DatePicker>
         )}
-        {/* <List.Item arrow="horizontal"><span className='text-placeholder'>生日/到家日</span></List.Item> */}
         <List.Item extra={getFieldDecorator(...petForm.gender)(<GenderField />)}>性别</List.Item>
         {getFieldDecorator(...petForm.type)(
           <SpecieField />

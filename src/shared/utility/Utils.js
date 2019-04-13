@@ -132,7 +132,7 @@ export default class Utils {
     return moment(str).toDate();
   }
 
-  static formatDate(dt, format = 'YYYY/MM/DD') {
+  static formatDate(dt, format = 'YYYY-MM-DD') {
     if (!dt) return dt;
     return moment(dt).format(format);
   }
@@ -142,7 +142,7 @@ export default class Utils {
     return moment(dt).format(format);
   }
 
-  static formatDateTime(dt, format = 'YYYY/MM/DD HH:mm:ss') {
+  static formatDateTime(dt, format = 'YYYY-MM-DD HH:mm:ss') {
     if (!dt) return dt;
     return moment(dt).format(format);
   }

@@ -17,4 +17,9 @@ export default class PetService extends BaseService {
     return resp.data;
   }
 
+  async updatePet(id, payload) {
+    const resp = await this._put(`/pets/${id}`, payload);
+    return resp.data;
+  }
+
 }

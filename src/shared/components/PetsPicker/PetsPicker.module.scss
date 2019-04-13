@@ -21,6 +21,10 @@
       }
 
       .am-list-body {
+        max-height: 50vh;
+        overflow: hidden;
+        overflow-y: scroll;
+
         &:before {
           content: none;
         }

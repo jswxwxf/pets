@@ -47,4 +47,9 @@ export default class OrderController {
     return await this.petService.addPet(payload);
   }
 
+  async updatePet(id, payload, silent = true) {
+    this.utilService.showSpinner(undefined, silent);
+    return await this.petService.updatePet(id, payload);
+  }
+
 }

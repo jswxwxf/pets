@@ -17,11 +17,7 @@ export default class GenderField extends Component {
   }
 
   state = {
-    gender: null
-  }
-
-  componentDidMount() {
-    this.setGender(1);
+    gender: this.props.value || 1
   }
 
   handleClick(_, gender) {
