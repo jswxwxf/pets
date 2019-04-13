@@ -7,4 +7,9 @@ export default class PetService extends BaseService {
     return resp.data;
   }
 
+  async addPet(payload) {
+    const resp = await this._post(`/pets`, payload);
+    return resp.data;
+  }
+
 }

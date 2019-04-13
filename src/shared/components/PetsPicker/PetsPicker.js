@@ -67,7 +67,7 @@ export default class PetsPicker extends Component {
           )}>
             {pets.map(pet => {
               let extra = <div><Checkbox /></div>;
-              return (<List.Item key={pet.id} thumb={<img src={require('assets/images/sample-avatar.jpg')} alt="pet" />}
+              return (<List.Item key={pet.id} thumb={<img src={pet.avatar} alt="pet" />}
                 extra={extra}>{pet.name}</List.Item>);
             })}
             {/* <List.Item thumb={<img src={require('assets/images/sample-avatar.jpg')} alt="pet" />}
@@ -122,6 +122,7 @@ class AddPicker extends Component {
 class Form extends Component {
 
   utilService = inject('utilService');
+  petCtrl = inject('petController');
 
   static propTypes = {
     onClose: PropTypes.func
@@ -142,6 +143,10 @@ class Form extends Component {
       let first = Utils.first(err);
       return this.utilService.alert(first.errors[0].message);
     }
+    console.log(result);
+    debugger
+    result = await this.petCtrl.addPet(result);
+    debugger
   }
 
   render() {

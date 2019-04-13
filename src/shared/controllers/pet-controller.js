@@ -13,4 +13,9 @@ export default class OrderController {
     return await this.petService.searchPets();
   }
 
+  async addPet(payload, silent = true) {
+    this.utilService.showSpinner(undefined, silent);
+    return await this.petService.addPet(payload);
+  }
+
 }
