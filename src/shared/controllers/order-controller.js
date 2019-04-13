@@ -8,4 +8,9 @@ export default class OrderController {
     this.orderService = orderService;
   }
 
+  async getMyOrders(silent = true) {
+    this.utilService.showSpinner(undefined, silent);
+    return await this.orderService.getMyOrders();
+  }
+
 }

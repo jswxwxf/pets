@@ -19,6 +19,21 @@ export default class ActivitiesTabs extends Component {
   utilService = inject('utilService');
   activityCtrl = inject('activityController');
 
+  state = {
+    activities: null
+  };
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  async loadData() {
+    let result = this.activityCtrl.getActivities();
+    this.setState({
+      activities: result.data
+    });
+  }
+
   render() {
     return (
       <Container className={styles['activities-page']}>

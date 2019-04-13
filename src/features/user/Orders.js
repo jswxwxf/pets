@@ -18,6 +18,21 @@ export default class OrdersTabs extends Component {
   utilService = inject('utilService');
   orderCtrl = inject('orderController');
 
+  state = {
+    orders: null
+  };
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  async loadData() {
+    let result = this.orderCtrl.getMyOrders();
+    this.setState({
+      orders: result.data
+    });
+  }
+
   render() {
     return (
       <Container className={styles['orders-page']} checkPath='/user/orders'>
