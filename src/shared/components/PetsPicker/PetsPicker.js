@@ -170,7 +170,9 @@ class Form extends Component {
         )}
         {/* <List.Item arrow="horizontal"><span className='text-placeholder'>生日/到家日</span></List.Item> */}
         <List.Item extra={getFieldDecorator(...petForm.gender)(<GenderField />)}>性别</List.Item>
-        <SpecieField />
+        {getFieldDecorator(...petForm.type)(
+          <SpecieField />
+        )}
       </List>
     )
   }
