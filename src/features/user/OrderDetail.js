@@ -12,6 +12,24 @@ export default class OrderDetail extends Component {
   utilService = inject('utilService');
   orderCtrl = inject('orderController');
 
+  id = this.props.match.params.id;
+
+  state = {
+    order: null
+  };
+
+  componentDidMount() {
+    this.loadData();
+  }
+
+  async loadData() {
+    if (!this.id) return;
+    let result = this.orderCtrl.getOrder(this.id);
+    this.setState({
+      order: result.data
+    });
+  }
+
   render() {
     return (
       <Container className={styles['order-detail-page']}>

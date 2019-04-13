@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Route, Redirect } from 'react-router-dom';
+import { HashRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 
 import { inject } from './config';
 
@@ -32,13 +32,13 @@ const RouteWithSubRoutes = (route) => (
 
 export default () => (
   <Router>
-    <div>
+    <Switch>
       <Route exact path="/" render={() => (
         <Redirect to="/welcome" />
       )} />
       {routes.map((route, i) => (
         <RouteWithSubRoutes key={i} {...route} />
       ))}
-    </div>
+    </Switch>
   </Router>
 );

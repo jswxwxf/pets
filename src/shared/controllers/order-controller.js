@@ -13,4 +13,9 @@ export default class OrderController {
     return await this.orderService.getMyOrders();
   }
 
+  async getOrder(id, silent = true) {
+    // this.utilService.showSpinner(undefined, silent);
+    return await this.orderService.getOrder(id);
+  }
+
 }

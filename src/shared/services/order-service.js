@@ -7,4 +7,10 @@ export default class OrderService extends BaseService {
     return resp.data;
   }
 
+  async getOrder(id) {
+    return { data: null };
+    // const resp = await this._get(`/my/orders`);
+    // return resp.data;
+  }
+
 }
