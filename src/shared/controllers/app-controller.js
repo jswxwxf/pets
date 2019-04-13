@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Utils } from '../utility';
 
 export default class AppController {
 
@@ -42,11 +43,9 @@ export default class AppController {
   }
 
   resultFailed = result => {
-    // if (!result) return;
-    // result = Utils.parseJson(result);
-    // let message = result.message || result.errCode;
-    // if (!message) return;
-    let message = result;
+    if (!result) return;
+    let message = result.error || result.message || result;
+    if (_.isObject(message)) message = '出错了';
     this.utilService.alert(message);
   };
 

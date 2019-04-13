@@ -10,7 +10,8 @@ import { Utils } from 'shared/utility';
 
 import { Container } from 'templates';
 
-// import PetsPicker from './PetsPicker';
+import PetsField from 'shared/components/PetsField';
+
 // import PricePicker from './PricePicker';
 // import PayPicker from './PayPicker';
 
@@ -103,7 +104,6 @@ export default class Attend extends Component {
           <Footer onSubmit={this.handleSubmit} />
         </div>
 
-        {/* <PetsPicker /> */}
         {/* <PricePicker /> */}
         {/* <PayPicker /> */}
 
@@ -163,7 +163,7 @@ class Form extends Component {
           {getFieldDecorator(...attendForm.mobile)(
             <InputItem placeholder="请填写手机号"><img src={require('assets/images/icon-user.png')} alt="phone" /> 手机号码</InputItem>
           )}
-          <List.Item arrow="horizontal" thumb={<img src={require('assets/images/icon-pet.png')} alt="pet" />}>携带宠物</List.Item>
+          <PetsField label='携带宠物' />
         </List>
       </div>
     )

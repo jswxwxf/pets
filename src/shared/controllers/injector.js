@@ -4,6 +4,7 @@ import _ from 'lodash';
 import {
   AppController,
   UserController,
+  PetController,
   ActivityController,
   OrderController
 } from './index';
@@ -12,6 +13,7 @@ import {
   UtilService,
   StoreService,
   UserService,
+  PetService,
   ActivityService,
   OrderService
 } from '../services';
@@ -25,11 +27,13 @@ const config = (Config) => {
   d.utilService = new UtilService();
   d.storeService = new StoreService();
   d.userService = new UserService(d.storeService);
+  d.petService = new PetService(d.storeService);
   d.activityService = new ActivityService(d.storeService);
   d.orderService = new OrderService(d.storeService);
 
   d.appController = new AppController(d.utilService);
   d.userController = new UserController(d.utilService, d.userService);
+  d.petController = new PetController(d.utilService, d.petService);
   d.activityController = new ActivityController(d.utilService, d.activityService);
   d.orderController = new OrderController(d.utilService, d.orderService);
 
