@@ -1,6 +1,12 @@
 import axios from 'axios';
+import Schema from 'async-validator';
+import _ from 'lodash';
 
 const isDev = true;
+
+if (!isDev) {
+  Schema.warning = _.noop;
+}
 
 export default class Config {
 
