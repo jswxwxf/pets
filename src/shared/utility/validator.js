@@ -203,6 +203,15 @@ export function validateAll(data, rules, attrNames, errMsg) {
   if (validation.passes()) return null;
   validation.errors.firstMessage = Utils.first(validation.errors.errors)[0];
   return validation.errors;
+
+}
+
+export function rcValidator(rules, errMsg) {
+  return (_, data, callback) => {
+    const validation = new Validator({ test: data }, { test: rules });
+    if (validation.passes()) return callback();
+    callback(errMsg);
+  }
 }
 
 export default validate;

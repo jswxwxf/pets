@@ -61,7 +61,14 @@
   .form-container {
     padding: 20px;
     background-color: white;
-    min-height: 80vh;
+    min-height: 70vh;
+    padding-bottom: 80px;
+
+    .form {
+      margin-top: 20px;
+      border-radius: 12px 12px 12px 12px;
+      box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.09);
+    }
 
     >div:first-child {
       display: flex;
@@ -92,9 +99,6 @@
     }
 
     >div:last-child {
-      margin-top: 20px;
-      border-radius: 12px 12px 12px 12px;
-      box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.09);
 
       :global {
         .am-list {
@@ -137,6 +141,7 @@
     position: fixed;
     bottom: 0;
     width: 100%;
+    background-color: white;
     box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.09);
 
   }

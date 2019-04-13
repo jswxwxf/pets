@@ -1,4 +1,6 @@
+import { Modal } from 'antd-mobile';
 import qs from 'query-string';
+
 
 import { Config } from 'config';
 
@@ -80,20 +82,14 @@ export default class UtilService {
   }
 
   alert(message, title) {
+    if (!title) {
+      title = message;
+      message = undefined;
+    }
     return new Promise(resolve => {
-      this.dialog.show({
-        title,
-        content: message,
-        buttons: [
-          {
-            label: '确认',
-            onClick: () => {
-              resolve();
-              this.dialog.hide();
-            }
-          }
-        ]
-      });
+      Modal.alert(title, message, [
+        { text: '确定', onPress: () => resolve() },
+      ])
     });
   }
 

@@ -1,4 +1,4 @@
-import validate, { Validators, validateAll } from './validator';
+import validate, { Validators, validateAll, rcValidator } from './validator';
 import Utils from './Utils';
 
-export { validate, validateAll, Validators, Utils };
+export { validate, validateAll, Validators, rcValidator, Utils };

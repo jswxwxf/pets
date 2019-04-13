@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Tag, Button, WhiteSpace, List, InputItem } from 'antd-mobile';
+import { createForm } from 'rc-form';
 import qs from 'query-string';
+import _ from 'lodash';
 
-import { inject } from '../../config';
+import { inject } from 'config';
+import { Utils } from 'shared/utility';
 
 import { Container } from 'templates';
 
@@ -13,12 +16,19 @@ import { Container } from 'templates';
 
 import styles from './Attend.module.scss';
 
-export default class Detail extends Component {
+import AttendForm from './AttendForm';
+
+export default class Attend extends Component {
 
   utilService = inject('utilService');
   activityCtrl = inject('activityController');
 
   id = qs.parse(this.props.location.search).id;
+
+  state = {
+    activity: null,
+    attendForms: []
+  }
 
   componentDidMount() {
     this.loadData();
@@ -28,11 +38,35 @@ export default class Detail extends Component {
     if (!this.id) return;
     let result = await this.activityCtrl.getActivity(this.id);
     this.setState({
-      activity: result.data
+      activity: result.data,
+      attendForms: [new AttendForm()]
     });
   }
 
+  handleAddForm = () => {
+    let { attendForms } = this.state;
+    this.setState({
+      attendForms: [new AttendForm(), ...attendForms]
+    });
+  }
+
+  handleSubmit = async () => {
+    let { attendForms } = this.state;
+    try {
+      var result = await AttendForm.validateAll(attendForms);
+      if (_.isEmpty(result)) {
+        return this.utilService.alert('请提供报名人信息');
+      }
+    } catch (err) {
+      let first = Utils.first(err);
+      return this.utilService.alert(first.errors[0].message);
+    }
+    result = await this.activityCtrl.apply(this.id, result);
+    console.log(result);
+  }
+
   render() {
+    let { attendForms } = this.state;
     return (
       <Container className={styles['attend-page']}>
 
@@ -58,15 +92,15 @@ export default class Detail extends Component {
         <div className={styles['form-container']}>
           <div>
             <span>报名信息</span>
-            <Button type="ghost" inline size="small" icon={<img src={require('assets/images/icon-plus.png')} alt="plus" />}>添加报名人</Button>
+            <Button onClick={this.handleAddForm} type="ghost" inline size="small" icon={<img src={require('assets/images/icon-plus.png')} alt="plus" />}>添加报名人</Button>
           </div>
           <div>
-            <Form />
+            {attendForms.map((attendForm) => (<Form key={attendForm.id} attendForm={attendForm} />))}
           </div>
         </div>
 
         <div className={styles['footer-container']}>
-          <Footer />
+          <Footer onSubmit={this.handleSubmit} />
         </div>
 
         {/* <PetsPicker /> */}
@@ -82,21 +116,23 @@ export default class Detail extends Component {
 export class Footer extends Component {
 
   static propTypes = {
-    showDetail: PropTypes.bool
+    showDetail: PropTypes.bool,
+    onSubmit: PropTypes.func
   }
 
   static defaultProps = {
-    showDetail: true
+    showDetail: true,
+    onSubmit: _.noop
   }
 
   render() {
-    let { showDetail } = this.props;
+    let { showDetail, onSubmit } = this.props;
     return (
       <div className={styles['footer']}>
         <div><span>实付：￥</span><span className={styles['price']}>10</span></div>
         <div>
           {showDetail && <span>价格明细</span>}
-          <Button inline>提交订单</Button>
+          <Button onClick={onSubmit} inline>提交订单</Button>
         </div>
       </div>
     )
@@ -104,13 +140,35 @@ export class Footer extends Component {
 }
 
 class Form extends Component {
+
+  static propTypes = {
+    attendForm: PropTypes.object
+  }
+
+  componentDidMount() {
+    let { form, attendForm } = this.props;
+    attendForm.form = form;
+  }
+
   render() {
+    let { form, attendForm } = this.props;
+    let { getFieldDecorator } = form;
+    if (!attendForm) return null;
     return (
-      <List>
-        <InputItem placeholder="请填写姓名"><img src={require('assets/images/icon-user.png')} alt="user" /> 联系人</InputItem>
-        <InputItem placeholder="请填写手机号"><img src={require('assets/images/icon-user.png')} alt="phone" /> 手机号码</InputItem>
-        <List.Item arrow="horizontal" thumb={<img src={require('assets/images/icon-pet.png')} alt="pet" />}>携带宠物</List.Item>
-      </List>
+      <div className={styles['form']}>
+        <List>
+          {getFieldDecorator(...attendForm.name)(
+            <InputItem placeholder="请填写姓名"><img src={require('assets/images/icon-user.png')} alt="user" /> 联系人</InputItem>
+          )}
+          {getFieldDecorator(...attendForm.mobile)(
+            <InputItem placeholder="请填写手机号"><img src={require('assets/images/icon-user.png')} alt="phone" /> 手机号码</InputItem>
+          )}
+          <List.Item arrow="horizontal" thumb={<img src={require('assets/images/icon-pet.png')} alt="pet" />}>携带宠物</List.Item>
+        </List>
+      </div>
     )
   }
+
 }
+
+Form = createForm(AttendForm.options)(Form);
