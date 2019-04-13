@@ -15,7 +15,7 @@ export default class OrdersTabs extends Component {
 
   render() {
     return (
-      <Container className={styles['orders-page']}>
+      <Container className={styles['orders-page']} checkPath='/user/orders'>
         <Tabs tabs={tabs}>
           <Orders />
           <Orders />
