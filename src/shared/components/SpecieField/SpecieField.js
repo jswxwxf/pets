@@ -9,7 +9,7 @@ export default class SpecieField extends Component {
     return (
       <>
         <List.Item extra="请选择宝贝品种" arrow="horizontal">宝贝品种</List.Item>
-        <SpeciesPicker />
+        {/* <SpeciesPicker /> */}
       </>
     );
   }
@@ -31,7 +31,7 @@ class SpeciesPicker extends Component {
           <List.Item arrow="horizontal">喵星人</List.Item>
           <List.Item>其他</List.Item>
         </List>
-      </Modal >
+      </Modal>
     )
   }
 }
