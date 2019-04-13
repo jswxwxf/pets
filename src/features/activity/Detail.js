@@ -103,8 +103,8 @@ export default class Detail extends Component {
           <div>已报名<Icon type="right" /></div>
           <div>
             {
-              avatars.map(function (avatar) {
-                return <img src={avatar ? avatar.avatar : require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
+              avatars.map(function (avatar, i) {
+                return <img key={i} src={avatar ? avatar.avatar : require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' />
               })
             }
           </div>
