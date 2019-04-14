@@ -21,10 +21,16 @@ const mockBridge = {
 export default class BridgeService {
 
   utilService;
+  bridge;
 
   getBridge() {
-    if (window.MPBridge) return window.MPBridge;
-    return mockBridge;
+    return new Promise((resolve) => {
+      if (this.bridge) return resolve(this.bridge);
+      setTimeout(() => {
+        this.bridge = window.MPBridge || mockBridge;
+        resolve(this.bridge);
+      }, 1000);
+    });
   }
 
   getDeviceInfo() {
@@ -32,9 +38,10 @@ export default class BridgeService {
     return this.getBridge().deviceInfo;
   }
 
-  getUserInfo() {
+  async getUserInfo() {
+    let bridge = await this.getBridge();
     return new Promise((resolve) => {
-      this.getBridge().getUserInfo((result) => {
+      bridge.getUserInfo((result) => {
         this.utilService.alert(result, '登录成功');
         resolve(result);
       });
