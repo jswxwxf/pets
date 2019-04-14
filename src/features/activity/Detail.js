@@ -6,6 +6,9 @@ import { inject } from 'config';
 
 import { Container } from 'templates';
 
+import CommentPicker from './CommentPicker';
+import ContactPicker from './ContactPicker';
+
 import styles from './Detail.module.scss';
 
 export default class Detail extends Component {
@@ -21,6 +24,10 @@ export default class Detail extends Component {
 
   componentDidMount() {
     this.loadData();
+  }
+
+  handleContact = () => {
+    this.contactPicker.open();
   }
 
   async loadData() {
@@ -92,7 +99,7 @@ export default class Detail extends Component {
             <span>仅剩{activity.quota}个名额</span>
             <span></span>
           </div>
-          <div className={styles['info-item']}>
+          <div onClick={this.handleContact} className={styles['info-item']}>
             <span><img src={activity.user.avatar ? activity.user.avatar : require('assets/images/sample-avatar.jpg')} alt="avatar" className='app-circle' /></span>
             <span>{activity.user.name}发起</span>
             <span><img src={require('assets/images/icon-phone.png')} alt="phone" /></span>
@@ -161,6 +168,9 @@ export default class Detail extends Component {
             <dd>用户自定义备注信息。（费用内不包含的部分，需要自己携带的物品，等其它注意的事项）</dd>
           </dl>
         </div>
+
+        <CommentPicker />
+        <ContactPicker ref={el => this.contactPicker = el} />
 
       </Container>
     );
