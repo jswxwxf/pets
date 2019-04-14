@@ -13,6 +13,7 @@ import {
   UtilService,
   eventService,
   StoreService,
+  BridgeService,
   UserService,
   PetService,
   ActivityService,
@@ -28,6 +29,7 @@ const config = (Config) => {
   d.utilService = new UtilService();
   d.eventService = eventService;
   d.storeService = new StoreService();
+  d.bridgeService = new BridgeService();
   d.userService = new UserService(d.storeService);
   d.petService = new PetService(d.storeService);
   d.activityService = new ActivityService(d.storeService);
@@ -39,8 +41,8 @@ const config = (Config) => {
   d.activityController = new ActivityController(d.utilService, d.activityService);
   d.orderController = new OrderController(d.utilService, d.orderService);
 
-  // // 破例 service 依赖 store
-  // d.userService.eventStore = d.eventStore;
+  // // 破例 service 依赖 service
+  d.userService.bridgeService = d.bridgeService;
   // d.utilService.tongjiStore = d.tongjiStore;
 
   if (Config.overrideDependency) {
@@ -96,21 +98,20 @@ const config = (Config) => {
       //   return Promise.reject(error);
       // }
 
-      // if (resp.status === 401) {
-      //   // token 过期或者没有 token，尝试拿一个 token
-      //   let loginFn = Config.isActivity ? 'loginActivity' : 'tryLogin';
-      //   let result = await d.userStore[loginFn]();
-      //   // 该用户已经绑定，拿到 token
-      //   if (result.token) {
-      //     resp.config.headers['x-auth-token'] = result.token;
-      //     // 重新调用之前 token 过期的服务
-      //     return axios(resp.config);
-      //   }
-      //   // 该用户没有绑定，跳到 绑定/注册 页
-      //   d.appController.tokenExpired(resp.data, result);
-      //   handleError(resp, 'config.tokenHandler');
-      //   return Promise.reject(error);
-      // }
+      if (resp.status === 401) {
+        // token 过期或者没有 token，尝试拿一个 token
+        let result = await d.userController.login();
+        // 该用户已经绑定，拿到 token
+        if (result.token) {
+          resp.config.headers['Authorization'] = `Bearer ${result.token}`;
+          // 重新调用之前 token 过期的服务
+          return axios(resp.config);
+        }
+        // 该用户没有绑定，跳到 绑定/注册 页
+        d.appController.tokenExpired(resp.data, result);
+        handleError(resp, 'config.tokenHandler');
+        return Promise.reject(error);
+      }
 
       // 服务器升级中
       if (resp.status === 502) {
