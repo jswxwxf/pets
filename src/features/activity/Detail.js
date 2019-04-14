@@ -169,8 +169,8 @@ export default class Detail extends Component {
           </dl>
         </div>
 
-        <CommentPicker />
-        <ContactPicker ref={el => this.contactPicker = el} />
+        <CommentPicker activity={activity} />
+        <ContactPicker activity={activity} ref={el => this.contactPicker = el} />
 
       </Container>
     );

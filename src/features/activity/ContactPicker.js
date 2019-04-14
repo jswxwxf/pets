@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Modal, List, Icon } from 'antd-mobile';
 
 import styles from './ContactPicker.module.scss';
 
 export default class ContactPicker extends Component {
+
+  static propTypes = {
+    activity: PropTypes.object,
+  }
+
+  static defaultProps = {
+  }
 
   state = {
     visible: false
@@ -22,6 +30,7 @@ export default class ContactPicker extends Component {
   }
 
   render() {
+    let { activity } = this.props;
     let { visible } = this.state;
     return (
       <Modal popup visible={visible} onClose={this.handleClose} animationType="slide-up" className={styles['contact-picker']}>
@@ -32,7 +41,7 @@ export default class ContactPicker extends Component {
             <div></div>
           </div>
         )}>
-          <List.Item thumb={<img src={require('assets/images/icon-user.png')} alt="user" />}><a href="tel://10085">拔打电话</a></List.Item>
+          <List.Item thumb={<img src={require('assets/images/icon-user.png')} alt="user" />}><a href={`tel://${activity.user.mobile}`}>拔打电话</a></List.Item>
           <List.Item thumb={<img src={require('assets/images/icon-mail.png')} alt="chat" />}>发送私信</List.Item>
         </List>
       </Modal>

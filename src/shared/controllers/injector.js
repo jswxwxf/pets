@@ -99,7 +99,7 @@ const config = (Config) => {
         let result = await d.userController.login();
         // 该用户已经绑定，拿到 token
         if (result.token) {
-          resp.config.headers['Authorization'] = `Bearer ${result.token}`;
+          resp.config.headers['Authorization'] = result.token;
           // 重新调用之前 token 过期的服务
           return axios(resp.config);
         }

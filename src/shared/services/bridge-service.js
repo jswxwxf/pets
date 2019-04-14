@@ -8,7 +8,9 @@ const bridge = window.MPBridge || {
     statusBarHeight: 20,
     safeBottomHeight: 34
   },
-  getUserInfo: _.noop,
+  getUserInfo(cb) {
+    cb({ token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tcS5rYWktZGlhbi5jb21cL2FwaVwvbG9naW4iLCJpYXQiOjE1NTUyMzI3MTIsImV4cCI6MTU4Njc2ODcxMiwibmJmIjoxNTU1MjMyNzEyLCJqdGkiOiJZNUhKYXQ5S3A2R2FJQjY5Iiwic3ViIjo1LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.4FHV2d5QJDQytvSlD0qK0lyU_D1_231qhGb58idqzvE' });
+  },
   login: _.noop,
   activityComment: _.noop,
   pay: _.noop,
@@ -36,12 +38,8 @@ export default class BridgeService extends BaseService {
     bridge.login();
   }
 
-  getActivityComment() {
-    return new Promise((resolve) => {
-      bridge.activityComment((result) => {
-        resolve(result);
-      });
-    });
+  openActivityComment(id) {
+    bridge.activityComment(JSON.stringify({ id }));
   }
 
   pay() {

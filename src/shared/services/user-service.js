@@ -11,6 +11,7 @@ export default class UserService extends BaseService {
 
   async login() {
     let user = await this.bridgeService.getUserInfo();
+    user.token = `Bearer ${user.token}`;
     this.setUser(user);
     this._setToken(user.token);
     return user;

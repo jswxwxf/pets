@@ -12,7 +12,7 @@ export default class Config {
 
   static isDev = isDev;
 
-  static baseUrl = isDev ? `http://mq.kai-dian.com/api/public` : `http://mq.kai-dian.com/api`;
+  static baseUrl = isDev ? `http://mq.kai-dian.com/api` : `http://mq.kai-dian.com/api`;
 
   static storagePrefix = '';
 

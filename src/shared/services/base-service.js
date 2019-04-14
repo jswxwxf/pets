@@ -19,7 +19,7 @@ export default class BaseService {
     var tokenHeader;
     var token = await this.storeService.getToken();
     if (token) {
-      tokenHeader = { 'x-auth-token': `${token}` }
+      tokenHeader = { 'Authorization': token }
     }
     return {
       ...tokenHeader,

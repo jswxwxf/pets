@@ -8,4 +8,9 @@ export default class UserController {
     this.userService = userService;
   }
 
+  async login(silent = true) {
+    this.utilService.showSpinner(undefined, silent);
+    return await this.userService.login();
+  }
+
 }
