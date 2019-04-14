@@ -69,7 +69,7 @@ export default class UtilService {
     window.scrollTo(0, 0);
   }
 
-  alert = Utils.debounce((message, title) => {
+  alert = (message, title) => {
     if (!title) {
       title = message;
       message = undefined;
@@ -81,7 +81,7 @@ export default class UtilService {
         { text: '确定', onPress: () => resolve() },
       ])
     });
-  });
+  };
 
   confirm(message, title) {
     return new Promise((resolve, reject) => {
