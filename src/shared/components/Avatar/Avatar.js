@@ -7,7 +7,7 @@ import styles from './Avatar.module.scss';
 export default class Avatar extends Component {
 
   static propTypes = {
-    subject: PropTypes.array,
+    subject: PropTypes.object,
     size: PropTypes.oneOf(['small', 'normal']),
     customClass: PropTypes.string
   }
