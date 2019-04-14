@@ -23,6 +23,7 @@ export default class BridgeService {
   utilService;
 
   getDeviceInfo() {
+    this.utilService.alert(bridge.deviceInfo);
     return bridge.deviceInfo;
   }
 
