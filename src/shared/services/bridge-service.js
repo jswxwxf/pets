@@ -56,7 +56,6 @@ export default class BridgeService {
 
   async openActivityComment(id) {
     let bridge = await this.getBridge();
-    debugger
     bridge.activityComment(JSON.stringify({ id }));
   }
 
