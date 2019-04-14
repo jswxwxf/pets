@@ -41,6 +41,7 @@ export default class BridgeService {
   async getUserInfo() {
     let bridge = await this.getBridge();
     return new Promise((resolve) => {
+      this.utilService.alert(bridge, '开始登录');
       bridge.getUserInfo((result) => {
         this.utilService.alert(result, '登录成功');
         resolve(result);
