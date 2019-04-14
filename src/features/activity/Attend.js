@@ -12,7 +12,7 @@ import { Container } from 'templates';
 
 import PetsField from 'shared/components/PetsField';
 
-// import PricePicker from './PricePicker';
+import PricePicker from './PricePicker';
 // import PayPicker from './PayPicker';
 
 import styles from './Attend.module.scss';
@@ -25,6 +25,8 @@ export default class Attend extends Component {
   activityCtrl = inject('activityController');
 
   id = qs.parse(this.props.location.search).id;
+
+  pricePicker;
 
   state = {
     activity: null,
@@ -49,6 +51,10 @@ export default class Attend extends Component {
     this.setState({
       attendForms: [new AttendForm(), ...attendForms]
     });
+  }
+
+  handlePriceDetail = () => {
+    this.pricePicker.open();
   }
 
   handleSubmit = async () => {
@@ -101,10 +107,10 @@ export default class Attend extends Component {
         </div>
 
         <div className={styles['footer-container']}>
-          <Footer onSubmit={this.handleSubmit} />
+          <Footer onPriceDetail={this.handlePriceDetail} onSubmit={this.handleSubmit} />
         </div>
 
-        {/* <PricePicker /> */}
+        <PricePicker id={this.id} ref={el => this.pricePicker = el} onSubmit={this.handleSubmit} />
         {/* <PayPicker /> */}
 
       </Container>
@@ -117,21 +123,23 @@ export class Footer extends Component {
 
   static propTypes = {
     showDetail: PropTypes.bool,
-    onSubmit: PropTypes.func
+    onSubmit: PropTypes.func,
+    onPriceDetail: PropTypes.func
   }
 
   static defaultProps = {
     showDetail: true,
-    onSubmit: _.noop
+    onSubmit: _.noop,
+    onPriceDetail: _.noop
   }
 
   render() {
-    let { showDetail, onSubmit } = this.props;
+    let { showDetail, onSubmit, onPriceDetail } = this.props;
     return (
       <div className={styles['footer']}>
         <div><span>实付：￥</span><span className={styles['price']}>10</span></div>
         <div>
-          {showDetail && <span>价格明细</span>}
+          {showDetail && <span onClick={onPriceDetail}>价格明细</span>}
           <Button onClick={onSubmit} inline>提交订单</Button>
         </div>
       </div>

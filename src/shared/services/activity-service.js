@@ -7,6 +7,11 @@ export default class ActivityService extends BaseService {
     return resp.data;
   }
 
+  async getActivityPrices(id) {
+    const resp = await this._get(`/events/${id}/prices`);
+    return resp.data;
+  }
+
   async getActivities() {
     const resp = await this._get(`/events`);
     return resp.data;

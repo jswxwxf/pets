@@ -13,6 +13,11 @@ export default class ActivityController {
     return await this.activityService.getActivity(id);
   }
 
+  async getActivityPrices(id, silent = false) {
+    this.utilService.showSpinner(undefined, silent);
+    return await this.activityService.getActivityPrices(id);
+  }
+
   async getActivities(silent = false) {
     this.utilService.showSpinner(undefined, silent);
     return await this.activityService.getActivities();

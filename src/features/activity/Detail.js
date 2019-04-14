@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Carousel, Tag, Icon, Button } from 'antd-mobile';
 import qs from 'query-string';
 
-import { inject } from '../../config';
+import { inject } from 'config';
 
 import { Container } from 'templates';
 
