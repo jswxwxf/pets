@@ -20,13 +20,17 @@ const bridge = window.MPBridge || {
 
 export default class BridgeService {
 
+  utilService;
+
   getDeviceInfo() {
     return bridge.deviceInfo;
   }
 
   getUserInfo() {
+    this.utilService.alert('开始登录');
     return new Promise((resolve) => {
       bridge.getUserInfo((result) => {
+        this.utilService.alert(result, '登录成功');
         resolve(result);
       });
     });
@@ -37,6 +41,7 @@ export default class BridgeService {
   }
 
   openActivityComment(id) {
+    this.utilService.alert(JSON.stringify({ id }), '打开讨论栏');
     bridge.activityComment(JSON.stringify({ id }));
   }
 

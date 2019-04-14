@@ -1,6 +1,7 @@
 import { Modal } from 'antd-mobile';
 import qs from 'query-string';
 import $ from 'jquery';
+import _ from 'lodash';
 
 import { Config } from 'config';
 
@@ -73,6 +74,8 @@ export default class UtilService {
       title = message;
       message = undefined;
     }
+    if (_.isObject(message)) message = JSON.stringify(message);
+    if (_.isObject(title)) title = JSON.stringify(title);
     return new Promise(resolve => {
       Modal.alert(title, message, [
         { text: '确定', onPress: () => resolve() },

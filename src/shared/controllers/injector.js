@@ -30,6 +30,7 @@ const config = (Config) => {
   d.storeService = new StoreService();
   d.eventService = eventService;
   d.utilService = new UtilService(d.storeService, d.bridgeService);
+  d.bridgeService.utilService = d.utilService;
   d.userService = new UserService(d.storeService, d.bridgeService);
   d.petService = new PetService(d.storeService);
   d.activityService = new ActivityService(d.storeService);
