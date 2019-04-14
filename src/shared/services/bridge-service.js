@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 const bridge = window.MPBridge || {
-  devinceInfo: {
+  deviceInfo: {
     isNavHidden: false,
     statusBarHeight: 20,
     safeBottomHeight: 34
@@ -28,7 +28,7 @@ export default class BridgeService {
   }
 
   getUserInfo() {
-    this.utilService.alert('开始登录');
+    this.utilService.alert(window.MPBridge, '开始登录');
     return new Promise((resolve) => {
       bridge.getUserInfo((result) => {
         this.utilService.alert(result, '登录成功');
