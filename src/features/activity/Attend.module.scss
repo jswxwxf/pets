@@ -68,6 +68,21 @@
       margin-top: 20px;
       border-radius: 12px 12px 12px 12px;
       box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.09);
+
+      .header {
+        font-size: 15px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      :global {
+        .am-list-header {
+          padding: 14px 0;
+        }
+      }
     }
 
     >div:first-child {

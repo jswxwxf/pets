@@ -1,7 +1,5 @@
 import _ from 'lodash';
 
-import BaseService from './base-service';
-
 const bridge = window.MPBridge || {
   devinceInfo: {
     isNavHidden: false,
@@ -20,10 +18,10 @@ const bridge = window.MPBridge || {
   close: _.noop
 };
 
-export default class BridgeService extends BaseService {
+export default class BridgeService {
 
-  getDevinceInfo() {
-    return bridge.devinceInfo;
+  getDeviceInfo() {
+    return bridge.deviceInfo;
   }
 
   getUserInfo() {

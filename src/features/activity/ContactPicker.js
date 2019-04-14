@@ -41,7 +41,7 @@ export default class ContactPicker extends Component {
             <div></div>
           </div>
         )}>
-          <List.Item thumb={<img src={require('assets/images/icon-user.png')} alt="user" />}><a href={`tel://${activity.user.mobile}`}>拔打电话</a></List.Item>
+          <List.Item thumb={<img src={require('assets/images/icon-phone2.png')} alt="user" />}><a href={`tel://${activity.user.mobile}`}>拔打电话</a></List.Item>
           <List.Item thumb={<img src={require('assets/images/icon-mail.png')} alt="chat" />}>发送私信</List.Item>
         </List>
       </Modal>

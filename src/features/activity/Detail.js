@@ -48,7 +48,7 @@ export default class Detail extends Component {
     let { activity, avatars } = this.state;
     if (!activity) return null;
     return (
-      <Container className={styles['detail-page']}>
+      <Container className={styles['detail-page']}> 
 
         {/* <div className={styles['nav-container']}>
           <NavBar mode="dark" icon={<Icon type="left" />} onLeftClick={() => console.log('onLeftClick')}

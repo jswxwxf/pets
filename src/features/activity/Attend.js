@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tag, Button, WhiteSpace, List, InputItem } from 'antd-mobile';
+import { Tag, Button, WhiteSpace, List, InputItem, Icon } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import qs from 'query-string';
 import _ from 'lodash';
@@ -164,12 +164,17 @@ class Form extends Component {
     if (!attendForm) return null;
     return (
       <div className={styles['form']}>
-        <List>
+        <List renderHeader={() => (
+          <div className={styles['header']}>
+            <span className={styles['title']}>报名人</span>
+            <Icon onClick={this.handleClose} type="cross" />
+          </div>
+        )}>
           {getFieldDecorator(...attendForm.name)(
             <InputItem placeholder="请填写姓名"><img src={require('assets/images/icon-user.png')} alt="user" /> 联系人</InputItem>
           )}
           {getFieldDecorator(...attendForm.mobile)(
-            <InputItem placeholder="请填写手机号"><img src={require('assets/images/icon-user.png')} alt="phone" /> 手机号码</InputItem>
+            <InputItem placeholder="请填写手机号"><img src={require('assets/images/icon-phone2.png')} alt="phone" /> 手机号码</InputItem>
           )}
           {getFieldDecorator(...attendForm.pets)(
             <PetsField label='携带宠物' />
