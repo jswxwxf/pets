@@ -28,8 +28,8 @@ export default class BridgeService {
   }
 
   getUserInfo() {
-    this.utilService.alert(window.MPBridge, '开始登录');
     return new Promise((resolve) => {
+      this.utilService.alert(window.MPBridge, '开始登录');
       bridge.getUserInfo((result) => {
         this.utilService.alert(result, '登录成功');
         resolve(result);
