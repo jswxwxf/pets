@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const bridge = window.MPBridge || {
+const mockBridge = {
   deviceInfo: {
     isNavHidden: false,
     statusBarHeight: 20,
@@ -22,15 +22,19 @@ export default class BridgeService {
 
   utilService;
 
+  getBridge() {
+    if (window.MPBridge) return window.MPBridge;
+    return mockBridge;
+  }
+
   getDeviceInfo() {
-    this.utilService.alert(bridge.deviceInfo);
-    return bridge.deviceInfo;
+    this.utilService.alert(this.getBridge().deviceInfo);
+    return this.getBridge().deviceInfo;
   }
 
   getUserInfo() {
     return new Promise((resolve) => {
-      this.utilService.alert(window.MPBridge, '开始登录');
-      bridge.getUserInfo((result) => {
+      this.getBridge().getUserInfo((result) => {
         this.utilService.alert(result, '登录成功');
         resolve(result);
       });
@@ -38,32 +42,32 @@ export default class BridgeService {
   }
 
   openLogin() {
-    bridge.login();
+    this.getBridge().login();
   }
 
   openActivityComment(id) {
     this.utilService.alert(JSON.stringify({ id }), '打开讨论栏');
-    bridge.activityComment(JSON.stringify({ id }));
+    this.getBridge().activityComment(JSON.stringify({ id }));
   }
 
   pay() {
-    bridge.pay();
+    this.getBridge().pay();
   }
 
   openWebView(url) {
-    bridge.openWebView(url);
+    this.getBridge().openWebView(url);
   }
 
   share(config) {
-    bridge.share(config);
+    this.getBridge().share(config);
   }
 
   goBack() {
-    bridge.back();
+    this.getBridge().back();
   }
 
   closeWebView() {
-    bridge.close();
+    this.getBridge().close();
   }
 
 }
