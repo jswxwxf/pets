@@ -77,8 +77,10 @@ export default class Utils {
     array.splice(insertIndex + 1, 0, ...toInsert);
   }
 
-  static arrayRemove(array, predicate) {
-    let index = array.findIndex(predicate);
+  static arrayRemove(array, index) {
+    if (_.isFunction(index)) {
+      index = array.findIndex(index);
+    }
     if (index > -1) {
       array.splice(index, 1);
     }

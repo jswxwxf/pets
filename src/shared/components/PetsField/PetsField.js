@@ -4,6 +4,7 @@ import { List } from 'antd-mobile';
 import _ from 'lodash';
 
 import PetsPicker from '../PetsPicker';
+import Avatar from '../Avatar';
 
 import styles from './PetsField.module.scss';
 
@@ -36,7 +37,7 @@ export default class PetsField extends Component {
   getDisplayValue() {
     let { _value } = this.state;
     if (!_value) return null;
-    return _value.map(pet => (<img key={pet.id} src={pet.avatar} alt="pet" />));
+    return _value.map(pet => (<Avatar key={pet.id} subject={pet} size="small" alt="pet" customClass={styles['avatar']} />));
   }
 
   render() {

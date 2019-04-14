@@ -53,6 +53,13 @@ export default class Attend extends Component {
     });
   }
 
+  handleRemoveForm = (_, index) => {
+    let { attendForms } = this.state;
+    this.setState({
+      attendForms: Utils.arrayRemove(attendForms, index)
+    });
+  }
+
   handlePriceDetail = () => {
     this.pricePicker.open();
   }
@@ -102,7 +109,7 @@ export default class Attend extends Component {
             <Button onClick={this.handleAddForm} type="ghost" inline size="small" icon={<img src={require('assets/images/icon-plus.png')} alt="plus" />}>添加报名人</Button>
           </div>
           <div>
-            {attendForms.map((attendForm) => (<Form key={attendForm.id} attendForm={attendForm} />))}
+            {attendForms.map((attendForm, i) => (<Form key={attendForm.id} index={i} length={attendForms.length} attendForm={attendForm} onRemove={this.handleRemoveForm} />))}
           </div>
         </div>
 
@@ -150,7 +157,15 @@ export class Footer extends Component {
 class Form extends Component {
 
   static propTypes = {
-    attendForm: PropTypes.object
+    form: PropTypes.object,
+    attendForm: PropTypes.object,
+    index: PropTypes.number,
+    length: PropTypes.number,
+    onRemove: PropTypes.func
+  }
+
+  static defaultProps = {
+    onRemove: _.noop
   }
 
   componentDidMount() {
@@ -159,15 +174,15 @@ class Form extends Component {
   }
 
   render() {
-    let { form, attendForm } = this.props;
+    let { index, length, form, attendForm, onRemove } = this.props;
     let { getFieldDecorator } = form;
     if (!attendForm) return null;
     return (
       <div className={styles['form']}>
         <List renderHeader={() => (
           <div className={styles['header']}>
-            <span className={styles['title']}>报名人</span>
-            <Icon onClick={this.handleClose} type="cross" />
+            <span className={styles['title']}>报名人{length - index}</span>
+            {length > 1 && <Icon onClick={e => onRemove(e, index)} type="cross" />}
           </div>
         )}>
           {getFieldDecorator(...attendForm.name)(

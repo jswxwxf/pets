@@ -1,5 +1,4 @@
 import { rcValidator } from 'shared/utility';
-import _ from 'lodash';
 
 import BaseForm from 'shared/utility/BaseForm';
 
@@ -33,14 +32,6 @@ export default class AttendForm extends BaseForm {
     }];
   }
 
-  validate() {
-    return new Promise((resolve) => {
-      this.form.validateFields((errors, values) => {
-        resolve({ errors, values });
-      });
-    })
-  }
-
   static toJson(result) {
     result.forEach(item => {
       item.pet_ids = item.pets.map(pet => pet.id);
@@ -53,11 +44,13 @@ export default class AttendForm extends BaseForm {
     return new Promise(async (resolve, reject) => {
       let allValues = [];
       await Utils.asyncForEach(forms, async form => {
-        let result = await form.validate();
-        let values = _.omitBy(result.values, val => _.isEmpty(val));
-        if (_.isEmpty(values)) return;
-        if (!result.errors) return allValues.push(values);
-        reject(result.errors);
+        try {
+          var result = await form.validate();
+        } catch (e) {
+          reject(e);
+          throw e;
+        }
+        allValues.push(result.values);
       });
       resolve(allValues);
     })

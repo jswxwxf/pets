@@ -1,0 +1,30 @@
+.avatar {
+  display: inline-block;
+
+  div {
+    border: 1px solid lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-normal {
+
+    img,
+    div {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+    }
+  }
+
+  &-small {
+
+    img,
+    div {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+    }
+  }
+}

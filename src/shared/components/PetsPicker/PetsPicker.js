@@ -9,6 +9,7 @@ import { Utils } from 'shared/utility';
 
 import GenderField from '../GenderField';
 import SpecieField from '../SpecieField';
+import Avatar from '../Avatar';
 
 import PetForm from './PetForm';
 
@@ -106,7 +107,7 @@ export default class PetsPicker extends Component {
                 <img onClick={e => this.handleModify(e, pet)} src={require('assets/images/icon-modify.png')} alt="modify" />
                 <Checkbox checked={checkedPets[pet.id] !== undefined} onChange={e => this.handleCheck(e, pet)} />
               </div>);
-              return (<List.Item key={pet.id} thumb={<img src={pet.avatar} alt="pet" />}
+              return (<List.Item key={pet.id} thumb={<Avatar subject={pet} />}
                 extra={extra}>{pet.name}</List.Item>);
             })}
           </List>

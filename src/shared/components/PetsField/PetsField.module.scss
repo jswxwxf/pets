@@ -1,9 +1,5 @@
 .pets-field {
-  :global {
-    .am-list-extra {
-      img {
-        border-radius: 50%;
-      }
-    }
+  .avatar {
+    margin-left: 5px;
   }
 }
