@@ -26,11 +26,11 @@ const config = (Config) => {
 
   const d = container;
 
-  d.utilService = new UtilService();
-  d.eventService = eventService;
-  d.storeService = new StoreService();
   d.bridgeService = new BridgeService();
-  d.userService = new UserService(d.storeService);
+  d.storeService = new StoreService();
+  d.eventService = eventService;
+  d.utilService = new UtilService(d.storeService, d.bridgeService);
+  d.userService = new UserService(d.storeService, d.bridgeService);
   d.petService = new PetService(d.storeService);
   d.activityService = new ActivityService(d.storeService);
   d.orderService = new OrderService(d.storeService);
@@ -40,10 +40,6 @@ const config = (Config) => {
   d.petController = new PetController(d.utilService, d.petService);
   d.activityController = new ActivityController(d.utilService, d.activityService);
   d.orderController = new OrderController(d.utilService, d.orderService);
-
-  // // 破例 service 依赖 service
-  d.userService.bridgeService = d.bridgeService;
-  // d.utilService.tongjiStore = d.tongjiStore;
 
   if (Config.overrideDependency) {
     Config.overrideDependency(d);

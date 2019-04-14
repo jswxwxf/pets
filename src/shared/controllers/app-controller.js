@@ -23,12 +23,12 @@ export default class AppController {
     this.utilService.goto('/features/youyao/auth2');
   }
 
-  tokenExpired(resp, tryLoginResult) {
+  tokenExpired() {
     // var message = '请登录或者创建帐号';
     // if (this.userService.isLoggedIn()) message = '登录过期，请重新登录';
     // this.utilService.alert(message);
-    // this.userService._deleteToken(); // 这里不能调 UserActions.logout()，因为 /logout api 也会检查 token，会死循环
-    // this.utilService.handleLogin(tryLoginResult);
+    this.userService._deleteToken(); // 这里不能调 UserActions.logout()，因为 /logout api 也会检查 token，会死循环
+    this.utilService.handleLogin();
   }
 
   serviceUnavailable() {

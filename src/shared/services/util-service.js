@@ -16,6 +16,7 @@ export default class UtilService {
   dialog;
 
   storeService;
+  bridgeService;
 
   showSpinner(message) {
     if (!this.spinner) return;
@@ -35,12 +36,6 @@ export default class UtilService {
     if (Config.isPhantomLocation(location)) return;
     this.storeService.storeItem('backLocation', location);
     // console.log(`${location.pathname} remembered`);
-  }
-
-  returnBack(defaultPath = '/') {
-    let targetLocation = this.storeService.getItem('backLocation');
-    this.replace(!!targetLocation ? targetLocation.pathname + targetLocation.search : defaultPath);
-    window.location.reload();
   }
 
   goto(pathname, query) {
@@ -65,19 +60,9 @@ export default class UtilService {
     this.history.goBack();
   }
 
-  handleLogin(userInfoRequired = false) {
-    // WebView 下处理登录在 JsBridgeStore
-    // 微信下处理登录
-    // if (Config.inWechat()) {
-    //   if (this['_handleLoginRedirected']) return;
-    //   var redirectUri = '?#/token';
-    //   // 转出转入的参数
-    //   // if (this.$location.search().token) redirectUri += `?${$.param(this.$location.search())}`;
-    //   var url = `${Config.wechatAuthUrl}?redirectUrl=${encodeURIComponent([Config.baseUrl, redirectUri].join(''))}`;
-    //   window.location.replace(url);
-    //   this['_handleLoginRedirected'] = true;
-    // }
-  }
+  handleLogin = Utils.debounce(() => {
+    this.bridgeService.openLogin();
+  });
 
   moveToTop() {
     window.scrollTo(0, 0);
