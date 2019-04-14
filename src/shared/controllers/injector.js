@@ -11,6 +11,7 @@ import {
 
 import {
   UtilService,
+  eventService,
   StoreService,
   UserService,
   PetService,
@@ -25,6 +26,7 @@ const config = (Config) => {
   const d = container;
 
   d.utilService = new UtilService();
+  d.eventService = eventService;
   d.storeService = new StoreService();
   d.userService = new UserService(d.storeService);
   d.petService = new PetService(d.storeService);

@@ -1,6 +1,6 @@
 import { Modal } from 'antd-mobile';
 import qs from 'query-string';
-
+import $ from 'jquery';
 
 import { Config } from 'config';
 
@@ -134,6 +134,14 @@ export default class UtilService {
     // clearTimeout(this.toastTimeout);
     // notify.show(message, opts.type, -1, opts.color);
     // this.toastTimeout = setTimeout(() => notify.hide(), opts.timeout);
+  }
+
+  hidePicker(containerClass) {
+    $(containerClass).parent().fadeOut('fast');
+  }
+
+  showPicker(containerClass) {
+    $(containerClass).parent().fadeIn('fast');
   }
 
 }

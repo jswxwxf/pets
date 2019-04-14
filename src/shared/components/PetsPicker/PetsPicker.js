@@ -16,6 +16,7 @@ import styles from './PetsPicker.module.scss';
 
 export default class PetsPicker extends Component {
 
+  utilService = inject('utilService');
   petCtrl = inject('petController');
 
   state = {
@@ -56,13 +57,23 @@ export default class PetsPicker extends Component {
   }
 
   handleAdd = async () => {
-    await this.petPicker.open();
-    this.loadData();
+    this.utilService.hidePicker('.pets-picker-container');
+    try {
+      await this.petPicker.open();
+      this.loadData();
+    } finally {
+      this.utilService.showPicker('.pets-picker-container');
+    }
   }
 
   handleModify = async (_, pet) => {
-    await this.petPicker.open(pet);
-    this.loadData();
+    this.utilService.hidePicker('.pets-picker-container');
+    try {
+      await this.petPicker.open(pet);
+      this.loadData();
+    } finally {
+      this.utilService.showPicker('.pets-picker-container');
+    }
   }
 
   handleCheck(e, pet) {
@@ -79,7 +90,7 @@ export default class PetsPicker extends Component {
     let { visible, pets, checkedPets } = this.state;
     return (
       <>
-        <Modal popup visible={visible} onClose={this.handleClose} animationType="slide-up" className={styles['pets-picker']}>
+        <Modal popup visible={visible} onClose={this.handleClose} animationType="slide-up" className={styles['pets-picker']} wrapClassName={'pets-picker-container'}>
           <List renderHeader={() => (
             <div className={styles['header']}>
               <Icon onClick={this.handleClose} type="cross" />
@@ -129,6 +140,7 @@ class PetPicker extends Component {
     this.setState({
       visible: false
     });
+    this.reject();
   }
 
   handleSaved = () => {

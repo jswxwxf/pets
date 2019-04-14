@@ -10,7 +10,7 @@ import 'validatorjs';
 import 'lodash';
 import 'moment';
 // import 'dva';
-// import $ from 'jquery';
+import $ from 'jquery';
 
 // styles
 // import 'react-weui/build/packages/react-weui.css';
@@ -24,6 +24,8 @@ import * as serviceWorker from './serviceWorker';
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+window.$ = window.jQuery = $;
 
 Promise.all([
   import('./App'),
