@@ -61,7 +61,8 @@ export default class Attend extends Component {
   }
 
   handlePriceDetail = () => {
-    this.pricePicker.open();
+    let { attendForms } = this.state;
+    this.pricePicker.open(attendForms);
   }
 
   handleSubmit = async () => {

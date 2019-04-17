@@ -27,7 +27,8 @@ export default class PricePicker extends Component {
     prices: null
   }
 
-  async open() {
+  async open(forms) {
+    this.forms = forms;
     await this.loadData();
     this.setState({
       visible: true
@@ -41,6 +42,14 @@ export default class PricePicker extends Component {
     this.setState({
       prices: result.data
     });
+  }
+
+  getPetsCount() {
+    return _(this.forms)
+      .map(form => form.form.getFieldValue('pets'))
+      .flatten()
+      .value()
+      .length;
   }
 
   handleClose = () => {
