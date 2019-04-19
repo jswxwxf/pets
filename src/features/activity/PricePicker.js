@@ -7,6 +7,8 @@ import { inject } from 'config';
 
 import { Footer } from './Attend';
 
+import AttendForm from './AttendForm';
+
 import styles from './PricePicker.module.scss';
 
 export default class PricePicker extends Component {
@@ -44,14 +46,6 @@ export default class PricePicker extends Component {
     });
   }
 
-  getPetsCount() {
-    return _(this.forms)
-      .map(form => form.form.getFieldValue('pets'))
-      .flatten()
-      .value()
-      .length;
-  }
-
   handleClose = () => {
     this.setState({
       visible: false
@@ -61,6 +55,7 @@ export default class PricePicker extends Component {
   render() {
     let { onSubmit } = this.props;
     let { visible } = this.state;
+    let petsCount = AttendForm.getPets(this.forms).length;
     return (
       <Modal popup visible={visible} onClose={this.handleClose} animationType="slide-up" transparent className={styles['price-picker']}>
         <div className={styles['header']}>
@@ -69,11 +64,11 @@ export default class PricePicker extends Component {
           <div></div>
         </div>
         <div className={styles['list-container']}>
-          <div><span>报名费</span><span>￥10 × 2</span></div>
+          <div><span>报名费</span><span>￥10 × {petsCount}</span></div>
           <WhiteSpace />
           <div><span>保险费</span><span></span></div>
-          <div className={styles['small']}><span>人身保险</span><span>￥10 × 2</span></div>
-          <div className={styles['small']}><span>宠物保险</span><span>￥10 × 2</span></div>
+          <div className={styles['small']}><span>人身保险</span><span>￥10 × {petsCount}</span></div>
+          <div className={styles['small']}><span>宠物保险</span><span>￥10 × {petsCount}</span></div>
         </div>
         <Footer onSubmit={onSubmit} showDetail={false} />
       </Modal>

@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import { rcValidator } from 'shared/utility';
 
 import BaseForm from 'shared/utility/BaseForm';
@@ -40,6 +42,13 @@ export default class AttendForm extends BaseForm {
     return { applicants: result };
   }
 
+  static getPets(forms) {
+    return _(forms)
+      .map(form => form.form.getFieldValue('pets'))
+      .flatten()
+      .value();
+  }
+
   static validateAll(forms) {
     return new Promise(async (resolve, reject) => {
       let allValues = [];
@@ -50,7 +59,7 @@ export default class AttendForm extends BaseForm {
           reject(e);
           throw e;
         }
-        allValues.push(result.values);
+        allValues.push(result);
       });
       resolve(allValues);
     })
