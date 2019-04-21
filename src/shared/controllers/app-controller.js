@@ -4,9 +4,11 @@ import _ from 'lodash';
 export default class AppController {
 
   utilService;
+  userService;
 
-  constructor(utilService) {
+  constructor(utilService, userService) {
     this.utilService = utilService;
+    this.userService = userService;
   }
 
   onNetworkError() {

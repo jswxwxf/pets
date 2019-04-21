@@ -36,7 +36,7 @@ const config = (Config) => {
   d.activityService = new ActivityService(d.storeService);
   d.orderService = new OrderService(d.storeService);
 
-  d.appController = new AppController(d.utilService);
+  d.appController = new AppController(d.utilService, d.userService);
   d.userController = new UserController(d.utilService, d.userService);
   d.petController = new PetController(d.utilService, d.petService);
   d.activityController = new ActivityController(d.utilService, d.activityService);
