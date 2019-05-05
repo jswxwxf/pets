@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { List } from 'antd-mobile';
 import _ from 'lodash';
 
+import { inject } from '../../../config';
+
 import PetsPicker from '../PetsPicker';
 import Avatar from '../Avatar';
 

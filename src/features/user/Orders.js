@@ -8,9 +8,9 @@ import { Container } from 'templates';
 import styles from './Orders.module.scss';
 
 const tabs = [
-  { title: '全部订单' },
-  { title: '待支付' },
-  { title: '售后退款' }
+  { title: '全部订单', type: 'all' },
+  { title: '待支付', type: 'pending' },
+  { title: '售后退款', type: 'refund' }
 ];
 
 export default class OrdersTabs extends Component {
@@ -19,27 +19,55 @@ export default class OrdersTabs extends Component {
   orderCtrl = inject('orderController');
 
   state = {
-    orders: null
+    all: [],
+    wait: [],
+    refund: []
   };
 
   componentDidMount() {
+    document.title = "我的订单";
     this.loadData();
   }
 
-  async loadData() {
-    let result = this.orderCtrl.getMyOrders();
-    this.setState({
-      orders: result.data
-    });
+  async loadData(tab, index) {
+    if (typeof tab === 'undefined') {
+      let result = await this.orderCtrl.getMyOrders('all');
+      this.setState(Object.assign({}, this.state, {
+        all: result.data
+      }));
+    } else {
+      if (index === 1) {
+        let result = await this.orderCtrl.getMyOrders(tab.type);
+        this.setState(Object.assign({}, this.state, {
+          wait: result.data
+        }));
+      } else {
+        let result = await this.orderCtrl.getMyOrders(tab.type);
+        this.setState(Object.assign({}, this.state, {
+          refund: result.data
+        }));
+      }
+    }
+    // if(index === 2) {
+    //   let result = this.orderCtrl.getMyOrders('all');
+    //   this.setState(Object.assign({}, this.state, { order2: result.data }));
+    // } else if (index === 3) {
+    //   let result = this.orderCtrl.getMyOrders('await');
+    //   this.setState(Object.assign({}, this.state, { order3: result.data }));
+    // } else {
+    //   let result = this.orderCtrl.getMyOrders('all');
+    //   this.setState(Object.assign({}, this.state, { order1: result.data }));
+    // }
   }
 
   render() {
+    let { all, wait, refund } = this.state
     return (
       <Container className={styles['orders-page']}>
-        <Tabs tabs={tabs}>
-          <Orders />
-          <Orders />
-          <Orders />
+        <Tabs tabs={tabs} onChange={(tab, index) => { this.loadData(tab, index) }}>
+          <Orders index="1" orders={all} />
+          <Orders index="2" orders={wait} />
+          <Orders index="3" orders={refund} />
         </Tabs>
       </Container>
     );
@@ -50,12 +78,15 @@ export default class OrdersTabs extends Component {
 class Orders extends Component {
 
   render() {
+    let orders = this.props.orders
+    if (orders.length == 0) {
+      return <div className={styles['tab-content-none']}>
+        <p>你还没有参加任何活动哦～</p>
+      </div>
+    }
     return (
       <div className={styles['tab-content']}>
-        <OrderCard />
-        <OrderCard />
-        <OrderCard />
-        <OrderCard />
+        {orders.map((order, i) => (<OrderCard key={order.id} index={i} length={orders.length} order={order} />))}
       </div>
     )
   }
@@ -64,27 +95,35 @@ class Orders extends Component {
 
 class OrderCard extends Component {
 
+  utilService = inject('utilService');
+
+  handleClick = () => {
+    this.utilService.goto('/user/order', { id: this.props.order.id });
+  }
+
   render() {
+    let order = this.props.order
+    let event = this.props.order.event ? this.props.order.event : {}
     return (
-      <div className={styles['info-container']}>
-        <div>尤克里里制作手工优培班</div>
+      <div className={styles['info-container']} onClick={this.handleClick}>
+        <div>{event.title}</div>
         <div className={styles['info-item']}>
           <span><img src={require('assets/images/icon-calendar.png')} alt="calendar" /></span>
-          <span>3月26日（周二）9:00-12:00</span>
+          <span>{event.start_at}</span>
           <span></span>
         </div>
         <div className={styles['info-item']}>
           <span><img src={require('assets/images/icon-location.png')} alt="location" /></span>
-          <span>浦东新区浦明路898号海航大厦3号楼25</span>
+          <span>{event.location}</span>
           <span></span>
         </div>
         <div className={styles['info-item']}>
           <span><img src={require('assets/images/icon-vip.png')} alt="vip" /></span>
-          <span>已报名22人</span>
+          <span>已报名{event.applicant_num}人</span>
           <span></span>
         </div>
-        <div className={styles['info-type']}>活动类型</div>
-        <div className={styles['info-status']}>待支付</div>
+        <div className={styles['info-type']}>{order.type === 1 ? '线下活动' : '线上活动'}</div>
+        <div className={styles['info-status']}>{order.order_status}</div>
       </div>
     )
   }

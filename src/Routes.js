@@ -6,11 +6,17 @@ import { inject } from './config';
 import { routes as welcomeRoutes } from './features/welcome';
 import { routes as activityRoutes } from './features/activity';
 import { routes as userRoutes } from './features/user';
+import { routes as storeRoutes } from './features/creditstore';
+import { routes as otherRoutes } from './features/others';
+import { routes as inviteRoutes } from './features/invite';
 
 const routes = [
   ...welcomeRoutes,
   ...activityRoutes,
-  ...userRoutes
+  ...userRoutes,
+  ...storeRoutes,
+  ...otherRoutes,
+  ...inviteRoutes
 ];
 
 // wrap <Route> and use this everywhere instead, then when sub routes are added to any route it'll work

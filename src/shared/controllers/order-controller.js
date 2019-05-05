@@ -8,9 +8,9 @@ export default class OrderController {
     this.orderService = orderService;
   }
 
-  async getMyOrders(silent = true) {
+  async getMyOrders(type, silent = true) {
     this.utilService.showSpinner(undefined, silent);
-    return await this.orderService.getMyOrders();
+    return await this.orderService.getMyOrders(type);
   }
 
   async getOrder(id, silent = true) {

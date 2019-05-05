@@ -53,7 +53,7 @@ export default class SpecieField extends Component {
   render() {
     let { types, _value } = this.state;
     return (
-      <Picker data={types} title="你的宝贝是？" extra='选择宝贝品种' format={this.formatDisplayValue} value={_value} cols={2} cascade onOk={this.handleOk}>
+      <Picker data={types} title="选择宝贝品种" extra='选择宝贝品种' format={this.formatDisplayValue} value={_value} cols={2} cascade onOk={this.handleOk}>
         <List.Item onClick={this.handleClick} arrow="horizontal">宝贝品种</List.Item>
       </Picker>
     );

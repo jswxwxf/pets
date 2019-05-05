@@ -31,3 +31,24 @@
     transform: rotate(360deg);
   }
 } */
+
+body {
+  background-color: #fff;
+}
+
+.am-modal-header  {
+  padding-bottom: 2px;
+  letter-spacing: 2px
+}
+
+.am-modal-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.am-modal-button-group-v .am-modal-button {
+  color: #fe5000;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 4px;
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Tag, Button, WhiteSpace, List, InputItem, Icon } from 'antd-mobile';
+import { Tag, Button, WhiteSpace, List, InputItem, Icon, Modal, Flex } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import qs from 'query-string';
 import _ from 'lodash';
@@ -10,14 +10,14 @@ import { Utils } from 'shared/utility';
 
 import { Container } from 'templates';
 
-import PetsField from 'shared/components/PetsField';
-
 import PricePicker from './PricePicker';
 // import PayPicker from './PayPicker';
+import AttendForm from './AttendForm';
+import PetsField from 'shared/components/PetsField';
+import IdCardField from 'shared/components/IdCardField';
+import PetCertField from '../../shared/components/PetCertField';
 
 import styles from './Attend.module.scss';
-
-import AttendForm from './AttendForm';
 
 export default class Attend extends Component {
 
@@ -29,11 +29,14 @@ export default class Attend extends Component {
   pricePicker;
 
   state = {
-    activity: null,
+    popup: 0,
+    deleted: 0,
+    activity: {},
     attendForms: []
   }
 
   componentDidMount() {
+    document.title = '提交报名订单'
     this.loadData();
   }
 
@@ -54,10 +57,23 @@ export default class Attend extends Component {
   }
 
   handleRemoveForm = (_, index) => {
-    let { attendForms } = this.state;
     this.setState({
-      attendForms: Utils.arrayRemove(attendForms, index)
-    });
+      popup: 1,
+      deleted: index
+    })
+  }
+
+  handleClose = (e) => {
+    if (e.currentTarget.innerText == "确 定") {
+      let { attendForms, deleted } = this.state;
+      this.setState({
+        attendForms: Utils.arrayRemove(attendForms, deleted)
+      });
+    }
+    this.setState({
+      popup: 0,
+      delete: 0
+    })
   }
 
   handlePriceDetail = () => {
@@ -80,21 +96,66 @@ export default class Attend extends Component {
     this.utilService.replace(`/user/orders/${result.data.trade_no}`);
   }
 
+  handleClosePop = (modal) => {
+    this.setState({
+      modal: false
+    })
+  }
+
   render() {
-    let { attendForms } = this.state;
+    let { activity, attendForms } = this.state;
     return (
       <Container className={styles['attend-page']}>
 
+        <Modal
+          visible={this.state.modal}
+          transparent
+          className={'detail-alert'}
+          wrapClassName={styles['detail-alert-wrap']}
+          // maskClosable={false}
+          // onClose={this.onClose('modal')}
+          footer={[]}
+          wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+        >
+          <h5 className={styles['modal-header-title']}>报名须知</h5>
+          <span className={styles['modal-title']}>1.每个订单至少添加一个宠物信息。若添加的用户与您共同携带同一宠物时，可不添加宠物信息。
+          <br /><br /> 2.为了保证您与其他宠友的安全，请上传尚在有效期内的疫苗证明，上传时切勿涂改信息，我们保证您的隐私安全，您可放心上传。
+          <br /><br />3.由于我们为每位活动报名者添购了活动保险，请报名人务必添加个人身份证信息，我们保证您的隐私安全，您可放心上传。</span>
+          <Button onClick={this.handleClosePop}>我了解了</Button>
+        </Modal>
+
+        <Modal
+          visible={this.state.popup}
+          transparent
+          className={'detail-alert'}
+          wrapClassName={styles['detail-alert-wrap']}
+          // maskClosable={false}'
+          transitionName={'bounce'}
+          onClose={this.handleClose}
+          footer={[]}
+          wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+        >
+          <h5 className={styles['modal-header-title']}>确认删除该报名人吗？</h5>
+          <Flex>
+            <Flex.Item>
+              <Button className={styles['cancel-btn']} type="ghost" onClick={this.handleClose}>取消</Button>
+            </Flex.Item>
+            <Flex.Item>
+              <Button onClick={this.handleClose}>确定</Button>
+            </Flex.Item>
+          </Flex>
+        </Modal>
+
         <div className={styles['info-container']}>
-          <div>柯基线下同好聚会</div>
+          <div>{activity.title}</div>
           <div className={styles['info-item']}>
             <span><img src={require('assets/images/icon-calendar.png')} alt="calendar" /></span>
-            <span>3月26日（周二）9:00-12:00</span>
+            <span>{activity.start_at}</span>
             <span></span>
           </div>
           <div className={styles['info-item']}>
             <span><img src={require('assets/images/icon-location.png')} alt="location" /></span>
-            <span>浦东新区浦明路898号海航大厦3号楼25</span>
+            <span>{activity.location}</span>
             <span></span>
           </div>
           <div className={styles['tags']}>
@@ -118,7 +179,7 @@ export default class Attend extends Component {
           <Footer onPriceDetail={this.handlePriceDetail} onSubmit={this.handleSubmit} />
         </div>
 
-        <PricePicker id={this.id} ref={el => this.pricePicker = el} onSubmit={this.handleSubmit} />
+        <PricePicker id={this.id} ref={el => this.pricePicker = el} detail={attendForms} onSubmit={this.handleSubmit} />
         {/* <PayPicker /> */}
 
       </Container>
@@ -148,7 +209,7 @@ export class Footer extends Component {
         <div><span>实付：￥</span><span className={styles['price']}>10</span></div>
         <div>
           {showDetail && <span onClick={onPriceDetail}>价格明细</span>}
-          <Button onClick={onSubmit} inline>提交订单</Button>
+          <Button onClick={onSubmit} inline>提交报名</Button>
         </div>
       </div>
     )
@@ -169,13 +230,29 @@ class Form extends Component {
     onRemove: _.noop
   }
 
+  state = {
+    pets: [{}]
+  }
+
   componentDidMount() {
     let { form, attendForm } = this.props;
     attendForm.form = form;
   }
 
+  handleAddPet = () => {
+    let { pets } = this.state
+    this.setState({
+      pets: [{}, ...pets],
+    })
+    // let { attendForms } = this.state;
+    // this.setState({
+    //   attendForms: [new AttendForm(), ...attendForms]
+    // });
+  }
+
   render() {
     let { index, length, form, attendForm, onRemove } = this.props;
+    let { pets } = this.state
     let { getFieldDecorator } = form;
     if (!attendForm) return null;
     return (
@@ -192,9 +269,20 @@ class Form extends Component {
           {getFieldDecorator(...attendForm.mobile)(
             <InputItem placeholder="请填写手机号"><img src={require('assets/images/icon-phone2.png')} alt="phone" /> 手机号码</InputItem>
           )}
-          {getFieldDecorator(...attendForm.pets)(
-            <PetsField label='携带宠物' />
+          {getFieldDecorator(...attendForm.license)(
+            <IdCardField label='身份证信息' />
           )}
+          {pets.map(() => {
+            return getFieldDecorator(...attendForm.license)(
+              <>
+              <PetsField label='携带宠物' />
+              <PetCertField label='宠物免疫证明' />
+              </>
+            )
+          })}
+          <div className={styles['footer']}>
+            <span className={styles['add-pet']} onClick={this.handleAddPet}>添加携带宠物</span>
+          </div>
         </List>
       </div>
     )

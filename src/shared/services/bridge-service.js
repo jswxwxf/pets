@@ -3,24 +3,38 @@ import _ from 'lodash';
 const mockBridge = {
   deviceInfo: {
     isNavHidden: false,
-    statusBarHeight: 20,
+    statusBarHeight: 0,
     safeBottomHeight: 34
   },
   getUserInfo(cb) {
-    cb({ token: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tcS5rYWktZGlhbi5jb21cL2FwaVwvbG9naW4iLCJpYXQiOjE1NTUyMzI3MTIsImV4cCI6MTU4Njc2ODcxMiwibmJmIjoxNTU1MjMyNzEyLCJqdGkiOiJZNUhKYXQ5S3A2R2FJQjY5Iiwic3ViIjo1LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.4FHV2d5QJDQytvSlD0qK0lyU_D1_231qhGb58idqzvE' });
+    cb({ token: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9tcS5rYWktZGlhbi5jb21cL2FwaVwvbG9naW4iLCJpYXQiOjE1NTU4MjQ2NzIsImV4cCI6MTU4NzM2MDY3MiwibmJmIjoxNTU1ODI0NjcyLCJqdGkiOiI1c0tvWWFYRGY4Umh4U25IIiwic3ViIjo1LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.kocTo4p3C7atLQeQzYEXkOzfO-wZpTFFZ8_jUeaQugE' });
   },
   login: _.noop,
-  activityComment: _.noop,
+  activityComment (cb) {
+    console.log(cb)
+  },
+  selectAndUploadImage (cb) {
+    cb({
+      images: ['http://mq.kai-dian.com/storage/1554318577tmCfGFoPb4.png']
+    })
+  },
   pay: _.noop,
-  openWebView: _.noop,
+  openWebview: _.noop,
+  openMap: _.noop,
   share: _.noop,
   back: _.noop,
-  close: _.noop
+  close: _.noop,
+  showInviteCode: _.noop,
+  showActivityEnrolledUserList: _.noop
 };
 
 window.getUserInfoCb = function (result) {
   window.getUserInfoResolve(result);
 };
+
+window.uploadImageCb = function (result) {
+  window.selectAndUploadImageResolve(result);
+}
 
 export default class BridgeService {
 
@@ -38,7 +52,7 @@ export default class BridgeService {
   }
 
   getDeviceInfo() {
-    this.utilService.alert(this.getBridge().deviceInfo);
+    // this.utilService.alert(this.getBridge().deviceInfo);
     return this.getBridge().deviceInfo;
   }
 
@@ -63,12 +77,42 @@ export default class BridgeService {
     this.getBridge().pay();
   }
 
-  openWebView(url) {
-    this.getBridge().openWebView(url);
+  async openWebview(url) {
+    let bridge = await this.getBridge();
+    console.log(JSON.stringify({ url }))
+    bridge.openWebview(JSON.stringify({url}));
   }
 
-  share(config) {
-    this.getBridge().share(config);
+  async openMap(latitude, longitude) {
+    let bridge = await this.getBridge();
+    console.log(JSON.stringify({ latitude, longitude }))
+    bridge.openMap(JSON.stringify({ latitude, longitude}));
+  }
+
+  async showInviteCode() {
+    let bridge = await this.getBridge();
+    bridge.showInviteCode();
+  }
+
+  async showActivityEnrolledUserList(id) {
+    let bridge = await this.getBridge();
+    console.log(JSON.stringify({ id }))
+    bridge.showActivityEnrolledUserList(JSON.stringify({id}));
+  }
+
+ async selectAndUploadImage(count) {
+   let bridge = await this.getBridge();
+   return new Promise((resolve) => {
+     window.selectAndUploadImageResolve = resolve;
+     bridge.selectAndUploadImage(JSON.stringify({ callback: 'uploadImageCb' }));
+   });
+    // let bridge = await this.getBridge();
+    // bridge.selectAndUploadImage(JSON.stringify({ count }));
+  }
+
+  async share(config) {
+    let bridge = await this.getBridge();
+    bridge.share(config);
   }
 
   goBack() {

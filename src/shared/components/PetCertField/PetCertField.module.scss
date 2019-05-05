@@ -1,0 +1,11 @@
+.id-card-field {
+  .avatar {
+    margin-left: 5px;
+  }
+
+  :global {
+    .am-list-extra {
+      flex-basis: 40% !important;
+    }
+  }
+}

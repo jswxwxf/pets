@@ -27,6 +27,11 @@ export default class AttendForm extends BaseForm {
         { validator: rcValidator('mobile', '请填写正确的手机号') }
       ],
     }];
+    this.license = ['license', {
+      rules: [
+        { required: true, whitespace: false, message: '请上传您的身份证信息' },
+      ],
+    }];
     this.pets = ['pets', {
       rules: [
         { required: true, message: '请选择宠物' },

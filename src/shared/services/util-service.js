@@ -131,7 +131,7 @@ export default class UtilService {
   }
 
   showPicker(containerClass) {
-    $(containerClass).parent().fadeIn('fast');
+    $(containerClass).parent().fadeIn('slow');
   }
 
 }

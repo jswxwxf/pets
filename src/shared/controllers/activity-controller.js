@@ -23,6 +23,11 @@ export default class ActivityController {
     return await this.activityService.getActivities();
   }
 
+  async getMyActivities(type, silent = false) {
+    this.utilService.showSpinner(undefined, silent);
+    return await this.activityService.getMyActivities(type);
+  }
+
   async getComments(id, silent = true) {
     this.utilService.showSpinner(undefined, silent);
     return await this.activityService.getComments(id);
@@ -46,6 +51,11 @@ export default class ActivityController {
   async getMyApplicants(id, silent = true) {
     this.utilService.showSpinner(undefined, silent);
     return await this.activityService.getMyApplicants(id);
+  }
+
+  async eventAddFav(id, silent = true) {
+    this.utilService.showSpinner(undefined, silent);
+    return await this.activityService.eventAddFav(id)
   }
 
   async apply(id, payload, silent = true) {

@@ -1,0 +1,232 @@
+.order-detail-page {
+  background-color: white;
+  min-height: 100vh;
+
+  .order-detail-header {
+    background-color: #fff2e7;
+    padding: 20px;
+    color: #fe5000;
+    border-bottom: 1px solid #fec6a0;
+    .order-detail-header-title {
+      font-weight: 600;
+      font-size: 17px;
+      display: block;
+    }
+    .order-detail-header-subtitle {
+      margin-top: 10px;
+      line-height: 18px;
+      display: block;
+    }
+    div {
+      background-color: #fff;
+      text-align: center;
+      padding: 15px;
+      margin-top: 12px;
+      box-shadow: 0px 2px 8px 0px rgba(254, 80, 0, 0.2);
+      border-radius: 8px;
+      span {
+        display: block;
+        margin-bottom: 5px;
+      }
+      span.count-down {
+        font-weight: 600;
+        font-size: 26px;
+      }
+    }
+  }
+  :global {
+    .am-tabs-default-bar-content {
+      box-shadow: 0px 0.5px 0px 0.5px rgba(0, 0, 0, 0.09);
+
+      .am-tabs-default-bar-tab {
+        font-size: 15px;
+        color: rgba(0, 0, 0, 0.45);
+
+        &:after {
+          content: none !important;
+        }
+
+        &-active {
+          color: rgba(0, 0, 0, 0.85);
+          font-weight: 500;
+          position: relative;
+
+          &:after {
+            content: "" !important;
+            width: 20% !important;
+            height: 4px !important;
+            background-color: rgba(254, 80, 0, 1) !important;
+            position: absolute !important;
+            bottom: 5px !important;
+            left: 40% !important;
+          }
+        }
+      }
+
+      .am-tabs-default-bar-underline {
+        display: none;
+      }
+    }
+  }
+
+  .info-header {
+    border-bottom: 6px solid #f5f5f5;
+  }
+
+  .info-container {
+    margin: 5px 0;
+    padding: 20px;
+    background-color: white;
+    position: relative;
+
+    .info-title {
+      font-weight: 600;
+      font-size: 17px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .info-block-title {
+      color: rgba(0, 0, 0, 0.85);
+      margin-bottom: 5px;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .info-block-border-bottom {
+      color: rgba(0, 0, 0, 0.65);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #f5f5f5;
+    }
+
+    .info-sub {
+      div {
+        padding: 5px 0;
+      }
+      .info-left {
+        color: rgba(0, 0, 0, 0.45);
+      }
+    }
+
+    .info-block {
+      padding: 10px 0;
+    }
+    p {
+      line-height: 20px;
+      color: rgba(0, 0, 0, 0.65);
+    }
+
+    .info-right {
+      text-align: right;
+    }
+
+    .info-total {
+      color: #fe5000;
+      font-weight: 600;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0.45);
+
+      span {
+        margin: 3px;
+        margin-left: 0;
+
+        &:nth-child(2) {
+          flex-grow: 1;
+        }
+      }
+
+      img {
+        height: 16px;
+        width: 16px;
+        margin-right: 4px;
+      }
+    }
+
+    .info-type {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 2px 4px;
+      border-bottom-left-radius: 5px;
+      font-size: 11px;
+      color: white;
+      background-color: rgba(254, 80, 11, 1);
+      line-height: 16px;
+    }
+
+    .info-status {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      font-size: 11px;
+      color: rgba(254, 80, 0, 1);
+      line-height: 16px;
+    }
+  }
+  .footer-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.09);
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    height: 60px;
+
+    > div:first-child {
+      color: rgba(254, 80, 0, 1);
+      font-size: 13px;
+
+      .price {
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
+
+    > div:last-child {
+      display: flex;
+      align-items: center;
+
+      > span {
+        font-size: 13px;
+        display: inline-block;
+        color: rgba(0, 0, 0, 0.65);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.65);
+        margin-right: 16px;
+      }
+
+      :global {
+        .am-button {
+          background: linear-gradient(to bottom right, rgba(254, 121, 20, 1), rgba(254, 80, 11, 1));
+          color: white;
+          padding: 0 12px;
+          height: 44px;
+          line-height: 44px;
+          width: 116px;
+          border-radius: 28px;
+
+          &-disabled {
+            background: rgba(0, 0, 0, 0.04);
+            opacity: 1;
+            color: rgba(0, 0, 0, 0.25);
+
+            &:before {
+              content: none !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}

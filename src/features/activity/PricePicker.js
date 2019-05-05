@@ -46,6 +46,14 @@ export default class PricePicker extends Component {
     });
   }
 
+  getPetsCount() {
+    return _(this.forms)
+      .map(form => form.form.getFieldValue('pets'))
+      .flatten()
+      .value()
+      .length;
+  }
+
   handleClose = () => {
     this.setState({
       visible: false
@@ -53,7 +61,12 @@ export default class PricePicker extends Component {
   }
 
   render() {
-    let { onSubmit } = this.props;
+    var { onSubmit, detail } = this.props;
+    if (typeof detail == 'undefined') {
+      var detail = [{
+        pets: []
+      }]
+    }
     let { visible } = this.state;
     let petsCount = AttendForm.getPets(this.forms).length;
     return (
@@ -64,10 +77,10 @@ export default class PricePicker extends Component {
           <div></div>
         </div>
         <div className={styles['list-container']}>
-          <div><span>报名费</span><span>￥10 × {petsCount}</span></div>
+          <div><span>报名费</span><span>￥10 × {detail.length}</span></div>
           <WhiteSpace />
           <div><span>保险费</span><span></span></div>
-          <div className={styles['small']}><span>人身保险</span><span>￥10 × {petsCount}</span></div>
+          <div className={styles['small']}><span>人身保险</span><span>￥10 × {detail.length}</span></div>
           <div className={styles['small']}><span>宠物保险</span><span>￥10 × {petsCount}</span></div>
         </div>
         <Footer onSubmit={onSubmit} showDetail={false} />

@@ -1,0 +1,28 @@
+.comment-picker {
+
+  position: fixed;
+  bottom: 0;
+  background-color: white;
+  width: 100%;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.09);
+  height: 86px;
+  text-align: left;
+
+  .bar {
+    width: 36px;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+    margin: 6px auto;
+  }
+
+  .comment-count {
+    font-size: 17px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.85);
+    margin: 32px 20px;
+  }
+
+}

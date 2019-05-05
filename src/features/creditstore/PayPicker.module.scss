@@ -1,0 +1,92 @@
+.pay-picker {
+  :global {
+
+    .am-modal-content {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+      box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.09);
+    }
+
+    .am-checkbox.am-checkbox-checked .am-checkbox-inner {
+      background-color: red;
+      border: none;
+    }
+
+    .am-list {
+      margin: 0 20px;
+      padding: 5px 0;
+
+      .am-list-header {
+        padding: 15px 0;
+      }
+
+      .am-list-footer {
+        padding: 15px 0;
+
+        .am-button {
+          background: linear-gradient(to bottom right, rgba(254, 121, 20, 1), rgba(254, 80, 11, 1));
+          color: white;
+          border-radius: 25px;
+        }
+      }
+
+      .am-list-body {
+        &:before {
+          content: none;
+        }
+
+        &:after {
+          content: none;
+        }
+      }
+
+      &-item {
+        padding-left: 0;
+        height: 60px;
+
+        .am-list-thumb {
+          img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+          }
+        }
+
+      }
+    }
+  }
+
+  .count {
+    margin: 10px 0;
+
+    span {
+      display: block;
+
+      &:first-child {
+        font-size: 40px;
+        color: rgba(0, 0, 0, 0.85);
+        line-height: 56px;
+        font-weight: 500;
+      }
+
+      &:last-child {
+        font-size: 15px;
+        color: rgba(0, 0, 0, 0.45);
+        line-height: 21px;
+      }
+    }
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .title {
+      font-size: 18px;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.85);
+    }
+  }
+
+}

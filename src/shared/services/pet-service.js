@@ -8,7 +8,7 @@ export default class PetService extends BaseService {
   }
 
   async searchPets() {
-    const resp = await this._get(`/pet/search`);
+    const resp = await this._get(`/my/pets`);
     return resp.data;
   }
 

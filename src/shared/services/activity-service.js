@@ -17,6 +17,11 @@ export default class ActivityService extends BaseService {
     return resp.data;
   }
 
+  async getMyActivities(type) {
+    const resp = await this._get(`/my/events?type=${type}`);
+    return resp.data;
+  }
+
   async getComments(id) {
     const resp = await this._get(`/events/${id}/comments`);
     return resp.data;
@@ -39,6 +44,11 @@ export default class ActivityService extends BaseService {
 
   async getApplicantAvatars(id) {
     const resp = await this._get(`/events/${id}/applicants/avatars`);
+    return resp.data;
+  }
+
+  async eventAddFav(id) {
+    const resp = await this._post(`/events/${id}/favorite`);
     return resp.data;
   }
 

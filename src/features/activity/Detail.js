@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Carousel, Tag, Icon, Button } from 'antd-mobile';
+import { Carousel, Tag, Icon, Button, Modal, Flex } from 'antd-mobile';
 import qs from 'query-string';
 
 import { inject } from 'config';
@@ -15,19 +15,27 @@ export default class Detail extends Component {
 
   utilService = inject('utilService');
   activityCtrl = inject('activityController');
+  bridgeService = inject('bridgeService');
 
   state = {
-    activity: null
+    activity: null,
+    modal1: true
   };
 
   id = qs.parse(this.props.location.search).id;
 
   componentDidMount() {
+    document.title = '提交报名订单'
     this.loadData();
   }
 
   handleContact = () => {
     this.contactPicker.open();
+  }
+
+  handleAttends = () => {
+    let { activity } = this.state;
+    this.bridgeService.showActivityEnrolledUserList(activity.id)
   }
 
   async loadData() {
@@ -41,14 +49,89 @@ export default class Detail extends Component {
   }
 
   handleClick = () => {
-    this.utilService.goto('/activity/Attend', { id: this.id });
+    let { activity } = this.state;
+    this.bridgeService.openWebview('http://47.100.172.250:8018/#/activity/Attend?id=' + activity.id);
+    // this.utilService.goto('/activity/Attend', { id: this.id });
+  }
+
+  handleMap  = () => {
+    let { activity } = this.state;
+    let loc = activity.lat_lng.split(',');
+    this.bridgeService.openMap(loc[0], loc[1]);
+  }
+
+  handleFav = async () => {
+    let { activity } = this.state;
+    let result = await this.activityCtrl.eventAddFav(this.id);
+    activity.is_faved = true
+    this.setState({
+      activity: activity
+    })
+  }
+
+  showOptions1 = (activity) => {
+    if (activity.options.indexOf('adult') !== -1) {
+      return <div><img src={require('assets/images/icon-adult.png')} alt="adult" />仅限成人</div>
+    }
+  }
+  showOptions2 = (activity) => {
+    if (activity.options.indexOf('park') !== -1) {
+      return <div><img src={require('assets/images/icon-park.png')} alt="park" />有停车位</div>
+    }
+  }
+  showOptions3 = (activity) => {
+    if (activity.options.indexOf('cancelable') !== -1) {
+      return <div><img src={require('assets/images/icon-cancel.png')} alt="cancel" />报名可取消</div>
+    }
+  }
+
+  showRefund = (activity) => {
+    if (activity.options.indexOf('cancelable') !== -1) {
+      return <dl>
+        <dt>退换须知</dt>
+        <dd>可在线取消报名，活动开始前48小时可无条件退款， 24小时前可退原报名费80%，12小时前可退50%。距离活动开始12小时内，报名费不可退。</dd>
+      </dl>
+    }
+  }
+
+
+  createFavedButton = () => {
+    let { activity } = this.state;
+    if (activity.is_favorite) {
+      return <img src={require('assets/images/star.png')} alt="fav" />;
+    } else {
+      return <img src={require('assets/images/icon-fav.png')} alt="fav" onClick={this.handleFav} />;
+    }
   }
 
   render() {
-    let { activity, avatars } = this.state;
+    let { activity, avatars, modal1 } = this.state;
     if (!activity) return null;
     return (
-      <Container className={styles['detail-page']}> 
+      <Container className={styles['detail-page']}>
+
+
+        {/* <Modal
+          visible={this.state.modal1}
+          transparent
+          className={'detail-alert'}
+          wrapClassName={styles['detail-alert-wrap']}
+          // maskClosable={false}
+          // onClose={this.onClose('modal1')}
+          footer={[]}
+          wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+        >
+          <h5 className={styles['modal-header-title']}>需要创建宠物信息卡吗？</h5>
+          <span className={styles['modal-title']}>你可以为新宠物创建一个宠物信息卡哦，下次报名可以直接关联宠物信息～</span>
+          <Flex>
+            <Flex.Item>
+              <Button className={styles['cancel-btn']} type="ghost" onClick={this.handleClose}>暂不创建</Button>
+            </Flex.Item>
+            <Flex.Item>
+              <Button onClick={this.handleClose}>去创建</Button>
+            </Flex.Item>
+          </Flex>
+        </Modal> */}
 
         {/* <div className={styles['nav-container']}>
           <NavBar mode="dark" icon={<Icon type="left" />} onLeftClick={() => console.log('onLeftClick')}
@@ -63,33 +146,32 @@ export default class Detail extends Component {
         </div> */}
 
         <Carousel infinite>
-          <img src={require('assets/images/sample1.jpg')} alt="sample1" />
-          <img src={require('assets/images/sample2.jpg')} alt="sample2" />
-          <img src={require('assets/images/sample3.jpg')} alt="sample3" />
-        </Carousel>
+        <img src={require('assets/images/sample1.jpg')} alt="sample1" />
+        <img src={require('assets/images/sample2.jpg')} alt="sample2" />
+        <img src={require('assets/images/sample3.jpg')} alt="sample3" />
+      </Carousel>
 
         <div className={styles['title-container']}>
-          <img src={require('assets/images/icon-fav.png')} alt="fav" />
+          {this.createFavedButton()}
           <div className={styles['title']}>{activity.title}</div>
           <div className={styles['tags']}>
-            <Tag>活动类型</Tag>
-            <Tag>2天后截止报名</Tag>
+            <Tag>{activity.type == 1 ? '线上' : '线下'}活动</Tag>
+            <Tag>{activity.remain_days}天后截止报名</Tag>
           </div>
           <div className={styles['counts']}>
             <span>{activity.view_count}次浏览</span>
             <span>{activity.collect_num}人收藏</span>
           </div>
-          <Button inline onClick={this.handleClick}>报名￥10</Button>
+          <Button inline onClick={this.handleClick}>报名</Button>
         </div>
 
         <div className={styles['info-container']}>
           <div className={styles['info-item']}>
             <span><img src={require('assets/images/icon-calendar.png')} alt="calendar" /></span>
-            {/* <span>3月26日（周二）9:00-12:00</span> */}
             <span>{activity.start_at} - {activity.end_at}</span>
             <span></span>
           </div>
-          <div className={styles['info-item']}>
+          <div className={styles['info-item']} onClick={this.handleMap}>
             <span><img src={require('assets/images/icon-location.png')} alt="location" /></span>
             <span>{activity.location}</span>
             <span><Icon type="right" /></span>
@@ -106,7 +188,7 @@ export default class Detail extends Component {
           </div>
         </div>
 
-        <div className={styles['attendee-container']}>
+        <div className={styles['attendee-container']} onClick={this.handleAttends} >
           <div>已报名<Icon type="right" /></div>
           <div>
             {
@@ -139,30 +221,27 @@ export default class Detail extends Component {
         <div className={styles['notice-container']}>
           <div>报名须知</div>
           <div className={styles['grid']}>
-            <div><img src={require('assets/images/icon-adult.png')} alt="adult" />仅限成人</div>
-            <div><img src={require('assets/images/icon-park.png')} alt="park" />有停车位</div>
-            <div><img src={require('assets/images/icon-cancel.png')} alt="cancel" />报名可取消</div>
+            {this.showOptions1(activity)}
+            {this.showOptions2(activity)}
+            {this.showOptions3(activity)}
           </div>
           <dl>
             <dt>报名方式</dt>
-            <dd>在线报名。报名截止时间：2019年1月20日0:00</dd>
+            <dd>在线报名。报名截止时间：{activity.deadline}</dd>
           </dl>
           <dl>
             <dt>费用包含</dt>
-            <dd>9元报名费+1元保险</dd>
+            <dd>{activity.expense_desc}</dd>
           </dl>
           <dl>
             <dt>年龄限制</dt>
-            <dd>仅限成人</dd>
+            <dd>{activity.options.indexOf('adult') ? '仅限成人':'无限制'}</dd>
           </dl>
           <dl>
             <dt>可携带宠物</dt>
-            <dd>1位报名用户可携带1只宠物</dd>
+            <dd>1位报名用户可携带{activity.max_pets}只宠物</dd>
           </dl>
-          <dl>
-            <dt>退换须知</dt>
-            <dd>可在线取消报名，活动开始前48小时可无条件退款， 24小时前可退原报名费80%，12小时前可退50%。距离活动开始12小时内，报名费不可退。</dd>
-          </dl>
+          {this.showRefund(activity)}
           <dl>
             <dt>备注</dt>
             <dd>用户自定义备注信息。（费用内不包含的部分，需要自己携带的物品，等其它注意的事项）</dd>
