@@ -68,7 +68,7 @@ export default class PricePicker extends Component {
       }]
     }
     let { visible } = this.state;
-    let petsCount = AttendForm.getPets(this.forms).length;
+    let petsCount = AttendForm.getPetsCount(this.forms);
     return (
       <Modal popup visible={visible} onClose={this.handleClose} animationType="slide-up" transparent className={styles['price-picker']}>
         <div className={styles['header']}>

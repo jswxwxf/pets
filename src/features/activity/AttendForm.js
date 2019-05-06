@@ -32,26 +32,62 @@ export default class AttendForm extends BaseForm {
         { required: true, whitespace: false, message: '请上传您的身份证信息' },
       ],
     }];
-    this.pets = ['pets', {
+    this.petKeys = [Date.now()];
+    this.pets = fieldName => [fieldName, {
+      initialValue: new Array(2),
       rules: [
-        { required: true, message: '请选择宠物' },
+        {
+          validator: (rule, value, callback) => {
+            let pets = value[0];
+            let cert = value[1];
+            // 如果宠物和免疫证明都没有，则不作验证
+            if (_.isEmpty(pets) && _.isEmpty(cert)) return callback();
+            if (_.isEmpty(pets)) return callback('请选择宠物');
+            if (_.isEmpty(cert)) return callback('请上传宠物免疫证明');
+            callback();
+          }
+        }
       ],
     }];
   }
 
+  addPets() {
+    this.petKeys.push(Date.now());
+  }
+
   static toJson(result) {
+    result = _.cloneDeep(result);
     result.forEach(item => {
-      item.pet_ids = item.pets.map(pet => pet.id);
-      delete item.pets;
+      let all_pet_ids = [];
+      item.petKeys.forEach(key => {
+        let pets = item[`pets-` + key];
+        delete item[`pets-` + key];
+        if (!pets[0]) return;
+        let pet_ids = pets[0].map(pet => pet.id);
+        all_pet_ids.push(pet_ids);
+        // TODO: 格式化宠物免疫证明
+      })
+      item.pet_ids = all_pet_ids;
+      delete item.petKeys;
     });
     return { applicants: result };
   }
 
-  static getPets(forms) {
-    return _(forms)
-      .map(form => form.form.getFieldValue('pets'))
-      .flatten()
-      .value();
+  static getPetsCount(forms) {
+    let count = 0;
+    if (!forms) return count;
+    forms.forEach(form => {
+      form.petKeys.forEach(key => {
+        let value = form.form.getFieldValue(`pets-` + key);
+        if (!value) return;
+        let pets = value[0];
+        let cert = value[1];
+        // 只有两个都填了才算一个
+        if (_.isEmpty(pets) || _.isEmpty(cert)) return;
+        count += pets.length;
+      })
+    });
+    return count;
   }
 
   static validateAll(forms) {
@@ -60,6 +96,7 @@ export default class AttendForm extends BaseForm {
       await Utils.asyncForEach(forms, async form => {
         try {
           var result = await form.validate();
+          result.petKeys = form.petKeys;
         } catch (e) {
           reject(e);
           throw e;

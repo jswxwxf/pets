@@ -56,6 +56,15 @@ export default class Attend extends Component {
     });
   }
 
+  handleAddPets = (index, e) => {
+    let { attendForms } = this.state;
+    let form = attendForms[index];
+    form.addPets();
+    this.setState({
+      attendForms
+    });
+  }
+
   handleRemoveForm = (_, index) => {
     this.setState({
       popup: 1,
@@ -171,7 +180,7 @@ export default class Attend extends Component {
             <Button onClick={this.handleAddForm} type="ghost" inline size="small" icon={<img src={require('assets/images/icon-plus.png')} alt="plus" />}>添加报名人</Button>
           </div>
           <div>
-            {attendForms.map((attendForm, i) => (<Form key={attendForm.id} index={i} length={attendForms.length} attendForm={attendForm} onRemove={this.handleRemoveForm} />))}
+            {attendForms.map((attendForm, i) => (<Form key={attendForm.id} index={i} length={attendForms.length} attendForm={attendForm} onRemove={this.handleRemoveForm} onAddPets={this.handleAddPets} />))}
           </div>
         </div>
 
@@ -223,15 +232,13 @@ class Form extends Component {
     attendForm: PropTypes.object,
     index: PropTypes.number,
     length: PropTypes.number,
-    onRemove: PropTypes.func
+    onRemove: PropTypes.func,
+    onAddPets: PropTypes.func
   }
 
   static defaultProps = {
-    onRemove: _.noop
-  }
-
-  state = {
-    pets: [{}]
+    onRemove: _.noop,
+    onAddPets: _.noop
   }
 
   componentDidMount() {
@@ -239,20 +246,8 @@ class Form extends Component {
     attendForm.form = form;
   }
 
-  handleAddPet = () => {
-    let { pets } = this.state
-    this.setState({
-      pets: [{}, ...pets],
-    })
-    // let { attendForms } = this.state;
-    // this.setState({
-    //   attendForms: [new AttendForm(), ...attendForms]
-    // });
-  }
-
   render() {
-    let { index, length, form, attendForm, onRemove } = this.props;
-    let { pets } = this.state
+    let { index, length, form, attendForm, onRemove, onAddPets } = this.props;
     let { getFieldDecorator } = form;
     if (!attendForm) return null;
     return (
@@ -272,20 +267,54 @@ class Form extends Component {
           {getFieldDecorator(...attendForm.license)(
             <IdCardField label='身份证信息' />
           )}
-          {pets.map(() => {
-            return getFieldDecorator(...attendForm.license)(
-              <>
-              <PetsField label='携带宠物' />
-              <PetCertField label='宠物免疫证明' />
-              </>
-            )
-          })}
+          {attendForm.petKeys.map(k => (
+            getFieldDecorator(...attendForm.pets('pets-' + k))(
+              <PetsFieldWrapper key={k} />
+            )))}
           <div className={styles['footer']}>
-            <span className={styles['add-pet']} onClick={this.handleAddPet}>添加携带宠物</span>
+            <span className={styles['add-pet']} onClick={e => onAddPets(index, e)}>添加携带宠物</span>
           </div>
         </List>
       </div>
     )
+  }
+
+}
+
+class PetsFieldWrapper extends Component {
+
+  static propTypes = {
+    value: PropTypes.array,
+    onChange: PropTypes.func,
+  }
+
+  static defaultProps = {
+    onChange: _.noop,
+  }
+
+  handlePetsChange = (e) => {
+    let { value, onChange } = this.props;
+    value[0] = e;
+    onChange(value);
+  }
+
+  handleCertChange = (e) => {
+    let { value, onChange } = this.props;
+    // TODO: 把免疫证明信息回传回去
+    debugger
+    value[1] = e;
+    onChange(value);
+  }
+
+  render() {
+    let { value, onChange } = this.props;
+    console.log(value);
+    return (
+      <>
+        <PetsField value={value[0]} onChange={this.handlePetsChange} label='携带宠物' />
+        <PetCertField value={value[1]} onChange={this.handleCertChange} label='宠物免疫证明' />
+      </>
+    );
   }
 
 }
