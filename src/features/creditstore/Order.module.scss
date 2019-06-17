@@ -3,10 +3,13 @@
   min-height: 100vh;
 
   .order-detail-header {
-    background-color: #fff2e7;
     padding: 20px;
     color: #fe5000;
     border-bottom: 1px solid #fec6a0;
+    background: #fff2e7 url(../../assets/images/truck.png);
+    background-position: right 20px top 10px;
+    background-repeat: no-repeat;
+    background-size: 20%;
     .order-detail-header-title {
       font-weight: 600;
       font-size: 17px;

@@ -13,78 +13,84 @@ import styles from './PricePicker.module.scss';
 
 export default class PricePicker extends Component {
 
-  activityCtrl = inject('activityController');
+    activityCtrl = inject('activityController');
 
-  static propTypes = {
-    id: PropTypes.string,
-    onSubmit: PropTypes.func
-  }
-
-  static defaultProps = {
-    onSubmit: _.noop
-  }
-
-  state = {
-    visible: false,
-    prices: null
-  }
-
-  async open(forms) {
-    this.forms = forms;
-    await this.loadData();
-    this.setState({
-      visible: true
-    });
-  }
-
-  async loadData() {
-    let { id } = this.props;
-    let result = await this.activityCtrl.getActivityPrices(id);
-    console.log(result.data);
-    this.setState({
-      prices: result.data
-    });
-  }
-
-  getPetsCount() {
-    return _(this.forms)
-      .map(form => form.form.getFieldValue('pets'))
-      .flatten()
-      .value()
-      .length;
-  }
-
-  handleClose = () => {
-    this.setState({
-      visible: false
-    });
-  }
-
-  render() {
-    var { onSubmit, detail } = this.props;
-    if (typeof detail == 'undefined') {
-      var detail = [{
-        pets: []
-      }]
+    static propTypes = {
+        id: PropTypes.string,
+        onSubmit: PropTypes.func
     }
-    let { visible } = this.state;
-    let petsCount = AttendForm.getPetsCount(this.forms);
-    return (
-      <Modal popup visible={visible} onClose={this.handleClose} animationType="slide-up" transparent className={styles['price-picker']}>
-        <div className={styles['header']}>
-          <Icon onClick={this.handleClose} type="cross" />
-          <span className={styles['title']}>价格明细</span>
-          <div></div>
-        </div>
-        <div className={styles['list-container']}>
-          <div><span>报名费</span><span>￥10 × {detail.length}</span></div>
-          <WhiteSpace />
-          <div><span>保险费</span><span></span></div>
-          <div className={styles['small']}><span>人身保险</span><span>￥10 × {detail.length}</span></div>
-          <div className={styles['small']}><span>宠物保险</span><span>￥10 × {petsCount}</span></div>
-        </div>
-        <Footer onSubmit={onSubmit} showDetail={false} />
-      </Modal>
-    )
-  }
+
+    static defaultProps = {
+        onSubmit: _.noop
+    }
+
+    state = {
+        visible: false,
+        prices: null
+    }
+
+    async open(forms) {
+        this.forms = forms;
+        await this.loadData();
+        this.setState({
+            visible: true
+        });
+    }
+
+    async loadData() {
+        let { id } = this.props;
+        let result = await this.activityCtrl.getActivityPrices(id);
+        this.setState({
+            prices: result.data
+        });
+    }
+
+    getPetsCount() {
+        return AttendForm.getPetsCount(this.forms);
+    }
+
+    handleClose = () => {
+        this.setState({
+            visible: false
+        });
+    }
+
+    render() {
+        var { onSubmit, detail } = this.props;
+        if (typeof detail == 'undefined') {
+            var detail = [{
+                pets: []
+            }]
+        }
+        let { visible, prices } = this.state;
+        let petsCount = this.getPetsCount();
+        if (prices == null) {
+            return <></>
+        }
+        return (
+            <Modal popup visible={visible} onClose={this.handleClose} animationType="slide-up" transparent className={styles['price-picker']}>
+                <div className={styles['header']}>
+                    <Icon onClick={this.handleClose} type="cross" />
+                    <span className={styles['title']}>价格明细</span>
+                    <div></div>
+                </div>
+                <div className={styles['list-container']}>
+                    {
+                        prices.map((price) => {
+                            if (price.type === 1) {
+                                return <div className={styles['small']}><span>{price.name}</span><span>￥{price.price} × 1</span></div>
+                            }
+                            if (price.type === 2) {
+                                return <div className={styles['small']}><span>{price.name}</span><span>￥{price.price} × {detail.length}</span></div>
+                            }
+                            if (price.type === 3) {
+                                return <div className={styles['small']}><span>{price.name}</span><span>￥{price.price} × {petsCount}</span></div>
+                            }
+                        })
+                    }
+                </div>
+                <Footer prices={prices} detail={detail} onSubmit={onSubmit} showDetail={false} />
+            </Modal>
+        )
+    }
 }

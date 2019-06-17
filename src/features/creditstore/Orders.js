@@ -12,74 +12,87 @@ import styles from './Orders.module.scss';
 
 export default class Orders extends Component {
 
-  utilService = inject('utilService');
-  // activityCtrl = inject('activityController');
+    utilService = inject('utilService');
+    creditCtrl = inject('creditController');
 
-  id = qs.parse(this.props.location.search).id;
+    id = qs.parse(this.props.location.search).id;
 
-  state = {
-    order: {},
-  }
+    state = {
+        orders: [],
+    }
 
-  componentDidMount() {
-    this.loadData();
-  }
+    componentDidMount() {
+        document.title = '商城订单'
+        this.loadData();
+    }
 
-  async loadData() {
-  }
+    async loadData() {
+        var orders = await this.creditCtrl.getCreditOrders()
+        orders = orders.data
+        this.setState({
+            orders
+        })
+    }
 
-  render() {
-    let { order } = this.state;
-    return (
-      <Container className={styles['store-orders-page']}>
-        <OrderCard order={order} />
-      </Container>
-    );
-  }
+    render() {
+        let { orders } = this.state;
+        if (!orders) {
+            return <></>
+        }
+        return (
+            <Container className={styles['store-orders-page']}>
+                {orders.length > 0 ? orders.map(order => {
+                    return <OrderCard order={order} />
+                }) : <div className={styles['tab-content-none']}>
+                        <p>赶紧来为你的宝贝剁手吧～</p>
+                    </div>}
+            </Container>
+        );
+    }
 
 }
 class OrderCard extends Component {
 
-  utilService = inject('utilService');
+    utilService = inject('utilService');
 
-  handleClick = () => {
-    this.utilService.goto('/store/order', { id: this.props.order.id });
-  }
+    handleClick = () => {
+        let { order } = this.props
+        this.utilService.goto('/store/order', { id: order.id });
+    }
 
-  render() {
-    let order = this.props.order
-    return (
-      <div className={styles['info-container']} onClick={this.handleClick}>
-        <div className={styles['info-time']}>2019年3月30日 12:34</div>
-        <div className={styles['info-item']}>
-          <div className={styles['info-img']}>
-            <img src={'https://loremflickr.com/162/162/cat'} />
-          </div>
-          <div className={styles['info-detail']}>
-            <div className={styles['info-title']}>
-            产品名称默认保留两行，空间很大，如果两行显示不了…
+    renderItem = (item) => {
+        item.item_title = item.item_title.substring(0, 20) + (item.item_title.length > 20 ? '...' : '')
+        return <div className={styles['info-item']}>
+            <div className={styles['info-img']}>
+                <img src={item.credit_item.image} alt="" />
             </div>
-            <div className={styles['info-amounts']}>
-              <span className={styles['price']}>300积分</span> <span className={styles['amount']}>x1</span>
+            <div className={styles['info-detail']}>
+                <div className={styles['info-title']}>
+                    {item.item_title}
+                </div>
+                <div className={styles['info-amounts']}>
+                    <span className={styles['price']}>{item.price}积分</span> <span className={styles['amount']}>x1</span>
+                </div>
             </div>
-          </div>
         </div>
-        <div className={styles['info-item']}>
-          <div className={styles['info-img']}>
-            <img src={'https://loremflickr.com/162/162/cat'} />
-          </div>
-          <div className={styles['info-detail']}>
-            <div className={styles['info-title']}>
-              毛绒玩具
+    }
+
+    render() {
+        let { order } = this.props
+        if (!order) {
+            return <></>
+        }
+        return (
+            <div className={styles['info-container']} onClick={this.handleClick}>
+                <div className={styles['info-time']}>{order.created_at}</div>
+                {
+                    order.items.map(item => {
+                        return this.renderItem(item)
+                    })
+                }
+                <div className={styles['info-type']}>{order.delivery_status === 'pending' ? '待发货' : '已发货'}</div>
             </div>
-            <div className={styles['info-amounts']}>
-              <span className={styles['price']}>90积分</span> <span className={styles['amount']}>x2</span>
-            </div>
-          </div>
-        </div>
-        <div className={styles['info-type']}>待发货</div>
-      </div>
-    )
-  }
+        )
+    }
 
 }

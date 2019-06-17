@@ -39,7 +39,7 @@ export default class PetCertField extends Component {
   getDisplayValue() {
     let { _value } = this.state;
     if (!_value) return null;
-    return <></>
+    return <>已上传</>
     // return _value.map(pet => (<Avatar key={pet.id} subject={pet} size="small" alt="pet" customClass={styles['avatar']} />));
   }
 

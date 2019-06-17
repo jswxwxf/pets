@@ -20,7 +20,7 @@
           position: relative;
 
           &:after {
-            content: '' !important;
+            content: "" !important;
             width: 20% !important;
             height: 4px !important;
             background-color: rgba(254, 80, 0, 1) !important;
@@ -29,7 +29,6 @@
             left: 40% !important;
           }
         }
-
       }
 
       .am-tabs-default-bar-underline {
@@ -39,23 +38,22 @@
   }
   .tab-content-none {
     position: relative;
-    background: url(../../assets/images/no-orders.png) no-repeat;
+    background: url(../../assets/images/no-activity.png) no-repeat;
     background-position: 50% 30%;
-    background-size: 40% ;
-    height: 100vh;
+    background-size: 30%;
+    min-height: 100vh;
     width: 100vw;
     p {
       padding-top: 95%;
       text-align: center;
-      font-size:17px;
-      font-weight:400;
-      color:rgba(0,0,0,0.65);
-      line-height:24px;
+      font-size: 17px;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.65);
+      line-height: 24px;
     }
   }
 
   .tab-content {
-
     .info-container {
       margin: 15px 20px;
       padding: 15px;
@@ -64,7 +62,7 @@
       box-shadow: 0px 2px 8px 2px rgba(0, 0, 0, 0.12);
       position: relative;
 
-      >div {
+      > div {
         &:first-child {
           font-size: 17px;
           font-weight: 500;
@@ -114,7 +112,6 @@
         color: rgba(254, 80, 0, 1);
         line-height: 16px;
       }
-
     }
   }
 }

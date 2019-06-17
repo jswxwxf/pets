@@ -1,7 +1,13 @@
+:global {
+  input {
+    caret-color: #fe5000;
+  }
+}
+
 .home {
   background: url(../../assets/images/bg.png);
   background-size: contain;
-  height: 100vh;
+  min-height: 100vh;
   .logo {
     padding-top: 20px;
     img {
@@ -96,9 +102,9 @@
               padding-top: 10px;
               text-align: right;
               color: rgba(254, 80, 0, 1);
-              font-size:14px;
-              font-weight:400;
-              line-height:18px;
+              font-size: 14px;
+              font-weight: 400;
+              line-height: 18px;
             }
             p {
               font-size: 17px;

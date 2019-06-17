@@ -1,81 +1,96 @@
 export default class ActivityController {
 
-  utilService;
-  activityService;
+    utilService;
+    activityService;
 
-  constructor(utilService, activityService) {
-    this.utilService = utilService;
-    this.activityService = activityService;
-  }
+    constructor(utilService, activityService) {
+        this.utilService = utilService;
+        this.activityService = activityService;
+    }
 
-  async getActivity(id, silent = false) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.getActivity(id);
-  }
+    async getActivity(id, silent = false) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getActivity(id);
+    }
 
-  async getActivityPrices(id, silent = false) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.getActivityPrices(id);
-  }
+    async getActivityPrices(id, silent = false) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getActivityPrices(id);
+    }
 
-  async getActivities(silent = false) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.getActivities();
-  }
+    async getActivities(silent = false) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getActivities();
+    }
 
-  async getMyActivities(type, silent = false) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.getMyActivities(type);
-  }
+    async getMyActivities(type, silent = false) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getMyActivities(type);
+    }
 
-  async getComments(id, silent = true) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.getComments(id);
-  }
+    async getComments(id, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getComments(id);
+    }
 
-  async getPrices(id, silent = true) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.getPrices(id);
-  }
+    async getPrices(id, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getPrices(id);
+    }
 
-  async getApplicants(id, silent = true) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.getApplicants(id);
-  }
+    async getApplicants(id, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getApplicants(id);
+    }
 
-  async getApplicantAvatars(id, silent = true) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.getApplicantAvatars(id);
-  }
+    async getApplicantAvatars(id, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getApplicantAvatars(id);
+    }
 
-  async getMyApplicants(id, silent = true) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.getMyApplicants(id);
-  }
+    async getMyApplicants(id, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getMyApplicants(id);
+    }
 
-  async eventAddFav(id, silent = true) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.eventAddFav(id)
-  }
+    async eventAddFav(id, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.eventAddFav(id)
+    }
 
-  async apply(id, payload, silent = true) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.apply(id, payload);
-  }
+    async eventRemoveFav(id, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.eventRemoveFav(id)
+    }
 
-  async getOnline(id, silent = true) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.getOnline(id);
-  }
+    async apply(id, payload, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.apply(id, payload);
+    }
 
-  async addPet(id, pet, silent = true) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.addPet(id, pet);
-  }
+    async getOnline(id, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getOnline(id);
+    }
 
-  async modifyPet(id, pet, silent = true) {
-    this.utilService.showSpinner(undefined, silent);
-    return await this.activityService.modifyPet(id, pet);
-  }
+    async addPet(id, pet, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.addPet(id, pet);
+    }
+
+    async modifyPet(id, pet, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.modifyPet(id, pet);
+    }
+
+    async getAddress(silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.getAddress()
+    }
+
+    async publish(data, silent = true) {
+        this.utilService.showSpinner(undefined, silent);
+        return await this.activityService.publish(data)
+    }
 
 }

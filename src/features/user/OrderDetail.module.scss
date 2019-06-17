@@ -3,10 +3,10 @@
   min-height: 100vh;
 
   .order-detail-header {
-    background-color: #FFF2E7;
+    background-color: #fff2e7;
     padding: 20px;
-    color: #FE5000;
-    border-bottom: 1px solid #FEC6A0;
+    color: #fe5000;
+    border-bottom: 1px solid #fec6a0;
     .order-detail-header-title {
       font-weight: 600;
       font-size: 17px;
@@ -22,8 +22,8 @@
       text-align: center;
       padding: 15px;
       margin-top: 12px;
-      box-shadow:0px 2px 8px 0px rgba(254,80,0,0.2);
-      border-radius:8px;
+      box-shadow: 0px 2px 8px 0px rgba(254, 80, 0, 0.2);
+      border-radius: 8px;
       span {
         display: block;
         margin-bottom: 5px;
@@ -52,7 +52,7 @@
           position: relative;
 
           &:after {
-            content: '' !important;
+            content: "" !important;
             width: 20% !important;
             height: 4px !important;
             background-color: rgba(254, 80, 0, 1) !important;
@@ -61,7 +61,6 @@
             left: 40% !important;
           }
         }
-
       }
 
       .am-tabs-default-bar-underline {
@@ -70,110 +69,264 @@
     }
   }
 
-      .info-header {
-        border-bottom: 6px solid #F5F5F5;
-      }
+  .info-header {
+    border-bottom: 6px solid #f5f5f5;
+  }
 
-    .info-container {
-      margin: 5px 0;
-      padding: 20px;
-      background-color: white;
-      position: relative;
+  .info-container {
+    margin: 5px 0;
+    padding: 20px;
+    background-color: white;
+    position: relative;
 
-      .info-title {
-        font-weight: 600;
-        font-size: 17px;
+    .info-title {
+      font-weight: 600;
+      font-size: 17px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .info-block-title {
+      color: rgba(0, 0, 0, 0.85);
+      margin-bottom: 5px;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .info-block-subtitle {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.85);
+      line-height: 18px;
+      &:first-child {
+        margin-top: 20px;
         display: block;
-        margin-bottom: 10px;
       }
-      
-      .info-block-title {
-        color:rgba(0,0,0,0.85);
-        margin-bottom: 5px;
-        font-weight: 600;
-        font-size: 15px;
-      }
+    }
 
-      .info-block-border-bottom {
-        color:rgba(0,0,0,0.65);
-        padding-bottom: 20px;
-        margin-bottom: 20px;
-        border-bottom: 1px solid #F5F5F5;
-      }
+    .info-block-border-bottom {
+      color: rgba(0, 0, 0, 0.65);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #f5f5f5;
+    }
 
-      .info-sub {
-        div {
-          padding: 5px 0;
-        }
-        .info-left {
-          color:rgba(0,0,0,0.45);
-        }
+    .info-sub {
+      div {
+        padding: 5px 0;
       }
-
-      .info-block {
-        padding: 10px 0;
-      }
-        p {
-          line-height: 20px;
-          color:rgba(0,0,0,0.65);
-        }
-
-      .info-right {
-        text-align: right;
-        img {
-          width: 30px;
-          height: 30px;
-          margin-right: 6px;
-        }
-      }
-
-      .info-total {
-        color: #FE5000;
-        font-weight: 600;
-      }
-
-      .info-item {
-        display: flex;
-        align-items: center;
-        font-size: 13px;
+      .info-left {
+        flex-basis: 40%;
         color: rgba(0, 0, 0, 0.45);
+      }
+    }
 
-        span {
-          margin: 3px;
-          margin-left: 0;
+    .info-block {
+      padding: 10px 0;
+    }
+    p {
+      line-height: 20px;
+      color: rgba(0, 0, 0, 0.65);
+    }
 
-          &:nth-child(2) {
-            flex-grow: 1;
+    .info-right {
+      flex-basis: 60%;
+      text-align: right;
+      img {
+        width: 20px;
+        height: 20px;
+        margin-right: 6px;
+      }
+      span {
+        margin-left: 5px;
+        vertical-align: top;
+        line-height: 20px;
+      }
+    }
+
+    .info-total {
+      color: #fe5000;
+      font-weight: 600;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: rgba(0, 0, 0, 0.45);
+
+      span {
+        margin: 3px;
+        margin-left: 0;
+
+        &:nth-child(2) {
+          flex-grow: 1;
+        }
+      }
+
+      img {
+        height: 16px;
+        width: 16px;
+        margin-right: 4px;
+      }
+    }
+
+    .info-type {
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 2px 4px;
+      border-bottom-left-radius: 5px;
+      font-size: 11px;
+      color: white;
+      background-color: rgba(254, 80, 11, 1);
+      line-height: 16px;
+    }
+
+    .info-status {
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+      font-size: 11px;
+      color: rgba(254, 80, 0, 1);
+      line-height: 16px;
+    }
+  }
+}
+
+.qr-container {
+  height: 380px;
+  overflow: hidden;
+  text-align: center;
+  .qr-header {
+    text-align: center;
+    padding-top: 10px;
+    font-size: 15px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(254, 80, 0, 1);
+    line-height: 21px;
+  }
+  .qr-num {
+    padding: 10px 0;
+    font-size: 20px;
+    font-family: PingFangSC-Regular;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.85);
+    line-height: 28px;
+  }
+  .qr-carousel {
+    height: 350px;
+  }
+}
+
+.footer-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.09);
+  :global {
+    .am-button {
+      background: linear-gradient(to bottom right, rgba(254, 121, 20, 1), rgba(254, 80, 11, 1));
+      color: white;
+      padding: 0 12px;
+      height: 44px;
+      line-height: 44px;
+      width: auto;
+      border-radius: 28px;
+      &.am-button-ghost {
+        margin: 15px;
+        background: #fff;
+        color: #fe5000;
+        border: #fe5000 1px solid;
+        outline: none;
+        &::before {
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  padding: 0 10px;
+  height: 60px;
+
+  > div:first-child {
+    color: rgba(254, 80, 0, 1);
+    font-size: 13px;
+
+    .price {
+      font-size: 18px;
+      font-weight: 500;
+    }
+  }
+
+  > div:last-child {
+    display: flex;
+    align-items: center;
+
+    > span {
+      font-size: 13px;
+      display: inline-block;
+      color: rgba(0, 0, 0, 0.65);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.65);
+      margin-right: 16px;
+    }
+
+    :global {
+      .am-button {
+        background: linear-gradient(to bottom right, rgba(254, 121, 20, 1), rgba(254, 80, 11, 1));
+        color: white;
+        padding: 0 12px;
+        height: 44px;
+        line-height: 44px;
+        width: 116px;
+        border-radius: 28px;
+
+        &.am-button-ghost {
+          background: #fff;
+          color: #fe5000;
+          border: #fe5000 1px solid;
+          outline: none;
+          &::before {
+            border: none;
           }
         }
 
-        img {
-          height: 16px;
-          width: 16px;
-          margin-right: 4px;
+        &-disabled {
+          background: rgba(0, 0, 0, 0.04);
+          opacity: 1;
+          color: rgba(0, 0, 0, 0.25);
+
+          &:before {
+            content: none !important;
+          }
         }
       }
-
-      .info-type {
-        position: absolute;
-        right: 0;
-        top: 0;
-        padding: 2px 4px;
-        border-bottom-left-radius: 5px;
-        font-size: 11px;
-        color: white;
-        background-color: rgba(254, 80, 11, 1);
-        line-height: 16px;
-      }
-
-      .info-status {
-        position: absolute;
-        right: 20px;
-        bottom: 20px;
-        font-size: 11px;
-        color: rgba(254, 80, 0, 1);
-        line-height: 16px;
-      }
-
     }
+  }
+}
+
+.timeline {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 21px;
+  :global {
+    .am-steps-item-content {
+      padding-left: 10px;
+    }
+    .am-steps-item-wait .am-steps-item-title {
+      color: rgba(0, 0, 0, 0.45);
+    }
+    .am-steps-item-finish .am-steps-item-tail:after {
+      background-color: #fe5000;
+    }
+  }
 }

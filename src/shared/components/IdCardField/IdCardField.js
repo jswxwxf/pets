@@ -39,8 +39,10 @@ export default class IdCardField extends Component {
   getDisplayValue() {
     let { _value } = this.state;
     if (!_value) return null;
+    if (_value[0] === '' && _value[1] === '') {
+      return null
+    }
     return <>已上传</>
-    // return _value.map(pet => (<Avatar key={pet.id} subject={pet} size="small" alt="pet" customClass={styles['avatar']} />));
   }
 
   render() {

@@ -28,10 +28,10 @@ serviceWorker.unregister();
 window.$ = window.jQuery = $;
 
 Promise.all([
-  import('./App'),
-  import('./vendor/Vendor')
+    import('./App'),
+    import('./vendor/Vendor')
 ]).then((modules) => {
-  let App = modules[0].default;
-  // App.start('#root');
-  ReactDOM.render(<App />, document.getElementById('root'));
+    let App = modules[0].default;
+    // App.start('#root');
+    ReactDOM.render(<App />, document.getElementById('root'));
 });

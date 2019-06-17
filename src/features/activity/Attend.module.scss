@@ -2,6 +2,7 @@
   .info-container {
     padding: 20px;
     background-color: white;
+    border-bottom: 6px solid rgba(0, 0, 0, 0.04);
 
     > div {
       &:first-child {
@@ -58,10 +59,16 @@
   }
 
   .form-container {
-    padding: 20px;
+    padding: 10px 20px;
     background-color: white;
     min-height: 70vh;
     padding-bottom: 80px;
+
+    .question-icon {
+      width: 20px;
+      position: relative;
+      top: 3px;
+    }
 
     .form {
       margin-top: 20px;
@@ -149,12 +156,24 @@
     }
   }
 
+  .pet-containers {
+    border-radius: 12px;
+    box-shadow: 0px 2px 8px 0px rgba(0, 0, 0, 0.09);
+    padding: 10px;
+    border: 1px solid #eee;
+    margin-top: 10px;
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
   .footer-container {
     position: fixed;
     bottom: 0;
     width: 100%;
     background-color: white;
     box-shadow: 0px -1px 4px 0px rgba(0, 0, 0, 0.09);
+    z-index: 100;
   }
 }
 

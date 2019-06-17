@@ -1,6 +1,5 @@
 .pay-picker {
   :global {
-
     .am-modal-content {
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
@@ -13,11 +12,11 @@
     }
 
     .am-list {
-      margin: 0 20px;
+      margin: 0 10px;
       padding: 5px 0;
 
       .am-list-header {
-        padding: 15px 0;
+        padding: 0 0;
       }
 
       .am-list-footer {
@@ -51,7 +50,6 @@
             border-radius: 50%;
           }
         }
-
       }
     }
   }
@@ -88,5 +86,4 @@
       color: rgba(0, 0, 0, 0.85);
     }
   }
-
 }

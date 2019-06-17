@@ -94,6 +94,12 @@
       }
       .name {
         text-align: left;
+        height: 20px;
+        text-overflow: ellipsis;
+        word-space: nowrap;
+        -webkit-line-clamp: 2; /* 设置超出多少行隐藏 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
       .credits {
         text-align: right;
@@ -159,6 +165,10 @@
   padding: 0 20px;
   margin-bottom: 40px;
   height: 60px;
+
+  .credit-warning {
+    color: #ff5500;
+  }
 
   > div:first-child {
     font-size: 13px;

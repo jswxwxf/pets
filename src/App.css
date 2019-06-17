@@ -33,22 +33,26 @@
 } */
 
 body {
-  background-color: #fff;
+    background-color: #fff;
 }
 
-.am-modal-header  {
-  padding-bottom: 2px;
-  letter-spacing: 2px
+.am-modal-header {
+    padding-bottom: 2px;
+    letter-spacing: 2px
 }
 
 .am-modal-title {
-  font-size: 18px;
-  font-weight: 500;
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .am-modal-button-group-v .am-modal-button {
-  color: #fe5000;
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 4px;
+    color: #fe5000;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 4px;
+}
+
+.am-button::before {
+    border: none !important;
 }

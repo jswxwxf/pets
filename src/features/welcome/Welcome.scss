@@ -1,10 +1,20 @@
-.am-steps-item-icon {
+:global {
+  .main-home {
+    min-height: 100vh;
+    background: none;
+    background-color: #fff;
+  }
+  .am-list {
+    .am-list-header {
+      background: none;
+      background-color: #fff;
+    }
+  }
 }
-
 .qrcode {
-    width: 100%;
-    text-align: center;
-    margin: 20px 0;
+  width: 100%;
+  text-align: center;
+  margin: 20px 0;
 }
 .circle {
   width: 10px;
@@ -29,7 +39,7 @@
 .stepsExample {
   .timeline.am-steps.am-steps-small .am-steps-item.am-steps-custom .am-steps-head-inner > .am-steps-icon {
     svg {
-      color: #fe500b
+      color: #fe500b;
     }
   }
 }

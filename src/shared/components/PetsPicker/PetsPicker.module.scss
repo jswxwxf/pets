@@ -31,6 +31,16 @@
         overflow: hidden;
         overflow-y: scroll;
 
+        .am-radio.am-radio-checked {
+          background: url(../../../assets/images/checked.png) no-repeat;
+          margin-top: 15px;
+          margin-left: 70%;
+          background-size: 30%;
+        }
+        .am-radio.am-radio-checked .am-radio-inner:after {
+          content: none;
+        }
+
         &:before {
           content: none;
         }

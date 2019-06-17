@@ -1,0 +1,61 @@
+.banner {
+  position: fixed;
+  width: 100%;
+  top: 0px;
+  z-index: 1000;
+  display: flex;
+  background: rgba(242, 242, 242, 1);
+  border-bottom: 1px solid #ddd;
+
+  //   div {
+  //     align-items: center;
+  //     justify-content: center;
+  //     box-sizing: border-box;
+  //   }
+
+  & > div {
+    flex: 1;
+    img {
+      width: 40px;
+      border-radius: 10px;
+    }
+  }
+  .app-logo {
+    flex: 0;
+    padding: 10px;
+  }
+
+  .app-name {
+    padding-top: 15px;
+    p {
+      color: rgba(0, 0, 0, 0.85);
+      font-weight: 600;
+      margin: 0;
+    }
+    .sub-name {
+      color: rgba(0, 0, 0, 0.65);
+      font-size: 12px;
+      font-weight: normal;
+      padding-top: 4px;
+    }
+  }
+
+  .download-btn {
+    margin-top: 15px;
+    :global {
+      .am-button {
+        width: 50px;
+        height: 30px;
+        float: right;
+        margin-right: 20px;
+        line-height: 30px;
+        font-weight: 600;
+        color: #fff;
+        background: rgba(252, 77, 0, 1);
+        padding: 0px;
+        font-size: 12px;
+        border-radius: 15px;
+      }
+    }
+  }
+}

@@ -12,7 +12,7 @@
     }
 
     .am-list {
-      margin: 0 20px;
+      // margin: 0 20px;
       padding: 5px 0;
 
       .am-list-header {
@@ -96,7 +96,6 @@
 
   .list-container {
     margin: 20px;
-    display: flex;
 
     .details {
       .name {
@@ -111,18 +110,18 @@
       }
     }
 
-    div {
-      &:first-child {
-        flex: 1 0 90%;
-        text-align: left;
-      }
-      &:last-child {
-        flex: 0 1 10%;
-        img {
-          width: 24px;
-        }
-      }
-    }
+    // div {
+    //   &:first-child {
+    //     flex: 1 0 90%;
+    //     text-align: left;
+    //   }
+    //   &:last-child {
+    //     flex: 0 1 10%;
+    //     img {
+    //       width: 24px;
+    //     }
+    //   }
+    // }
   }
 
   .am-list-footer {
