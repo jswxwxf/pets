@@ -11,7 +11,7 @@
     "jquery": "^3.4.0",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "qrcode.react": "^0.9.3",
     "query-string": "^6.4.0",
     "rc-form": "^2.4.4",
